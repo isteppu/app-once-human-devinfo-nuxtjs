@@ -24,6 +24,10 @@ const pages = {
     "silos": Silos,
 };
 
+useHead({
+    title: 'OH Portal Backoffice',
+})
+
 </script>
 
 <template>

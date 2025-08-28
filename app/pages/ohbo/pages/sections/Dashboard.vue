@@ -9,7 +9,7 @@ const boxes = [
 </script>
 
 <template>
-    <div data-aos="slide-up" class="w-full h-full">
+    <div data-aos="slide-up" class="w-full">
         <div class="flex flex-wrap gap-4 w-full px-5">
             <div class="stats shadow-md w-full bg-cyan-600/20">
                 <div v-for="(box, index) in boxes" :key="'dashboard-box' + index"

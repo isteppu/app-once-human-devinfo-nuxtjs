@@ -2,7 +2,6 @@
 import { ref, onMounted } from 'vue';
 import AlertDialog from '~/components/AlertDialog.vue';
 import { useUserStore } from '../../store/user';
-import { useHead } from '#app';
 
 const userStore = useUserStore();
 const showPassword = ref(false);
