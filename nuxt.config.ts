@@ -9,6 +9,10 @@ export default defineNuxtConfig({
       autoprefixer: {}
     }
   },
+  colorMode: {
+    preference: 'light',
+    fallback: 'light',
+  },
   modules: [
     '@nuxt/ui',
     '@nuxt/image',

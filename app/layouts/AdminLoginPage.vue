@@ -1,86 +1,28 @@
 <script setup>
-import { ref, onMounted } from 'vue';
+import { onMounted } from 'vue';
+import { useUserStore } from "~/store/user";
+import { useAuth } from "~/composables/useAuth";
 import AlertDialog from '~/components/AlertDialog.vue';
-import { useUserStore } from '../../store/user';
 
 const userStore = useUserStore();
-const showPassword = ref(false);
-const loading = ref(false);
-const username = ref('');
-const password = ref('');
-const usernameError = ref('');
-const passwordError = ref('');
-const loginError = ref('');
-const alertVisible = ref('');
-const alertDetails = ref({
-    title: '',
-    desc: '',
-    buttons: []
-});
-
-
-const validateForm = () => {
-    if (!username.value) {
-        usernameError.value = 'Username is required';
-    }
-    if (!password.value) {
-        passwordError.value = 'Password is required';
-    }
-
-    return !usernameError.value && !passwordError.value ? onSubmit() : null;
-}
-
-const onSubmit = async () => {
-    loading.value = true;
-    try {
-        const { data, error } = await useFetch('/api/auth', {
-            method: 'POST',
-            body: {
-                username: username.value,
-                password: password.value,
-            },
-        })
-
-        if (error.value) {
-            loginError.value = error.value.data?.data?.message || 'An error occurred during login.';
-            return;
-        }
-
-        if (data.value) {
-            alertDetails.value = {
-                title: 'Success',
-                desc: 'Login successful.',
-                buttons: [
-                    {
-                        icon: "pi pi-verified text-2xl",
-                        label: 'OK',
-                        class: 'btn btn-primary',
-                        func: () => {
-                            alertVisible.value = false;
-                            userStore.setUser(username.value);
-                            userStore.setLoggedIn(true);
-                            navigateTo("/ohbo/pages/main");
-                        }
-                    }
-                ]
-            }
-
-            alertVisible.value = true;
-        }
-    } finally {
-        loading.value = false;
-    }
-}
+const {
+  username,
+  password,
+  showPassword,
+  loading,
+  usernameError,
+  passwordError,
+  loginError,
+  alertVisible,
+  alertDetails,
+  validateForm,
+} = useAuth();
 
 onMounted(() => {
-    if (userStore.isLoggedIn) {
-        navigateTo('/bo/deviations')
-    }
+  if (userStore.isLoggedIn) {
+    navigateTo("/backoffice/admin");
+  }
 });
-
-useHead({
-    title: 'OH Portal Backoffice',
-})
 
 </script>
 

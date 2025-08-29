@@ -1,14 +1,14 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue';
-import { useUserStore } from '../../../store/user';
+import { useUserStore } from '~/store/user';
 import Sidebar from '../components/Sidebar.vue';
-import Dashboard from './sections/Dashboard.vue';
-import DeviationList from './sections/DeviationList.vue';
-import DeviationNeeds from './sections/DeviationNeeds.vue';
-import DeviationTypes from './sections/DeviationTypes.vue';
-import ScenarioList from './sections/ScenarioList.vue';
-import VisionalWheels from './sections/VisionalWheels.vue';
-import Silos from './sections/Silos.vue';
+import Dashboard from './Dashboard.vue';
+import DeviationList from './DeviationList.vue';
+import DeviationNeeds from './DeviationNeeds.vue';
+import DeviationTypes from './DeviationTypes.vue';
+import ScenarioList from './ScenarioList.vue';
+import VisionalWheels from './VisionalWheels.vue';
+import Silos from './Silos.vue';
 
 const userStore = useUserStore();
 const currentComponent = computed(() => {
@@ -23,10 +23,6 @@ const pages = {
     "visional-wheels": VisionalWheels,
     "silos": Silos,
 };
-
-useHead({
-    title: 'OH Portal Backoffice',
-})
 
 </script>
 

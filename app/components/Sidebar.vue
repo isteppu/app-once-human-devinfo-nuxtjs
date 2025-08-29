@@ -1,50 +1,17 @@
 <script setup>
-import { ref, onMounted } from 'vue';
-import { useUserStore } from '../../../store/user';
+import { onMounted } from 'vue';
+import { useAuth } from '~/composables/useAuth';
+import { useUi } from '#imports';
+import { useUserStore } from "~/store/user";
 
 const userStore = useUserStore();
-const adminUsername = ref('');
-const isMobileMenuOpen = ref(false);
+const { adminUsername, checkStore } = useAuth();
+const { isMobileMenuOpen, menu, toggleMenu } = useUi();
 
-const checkStore = () => {
-    if (!userStore.isLoggedIn) {
-        navigateTo('/ohbo')
-    } else {
-        adminUsername.value = userStore.user;
-    }
-}
-
-const logout = () => {
-    userStore.logout();
-    navigateTo('/ohbo')
-}
 
 onMounted(() => {
     checkStore();
 });
-
-const toggleMenu = () => {
-    isMobileMenuOpen.value = !isMobileMenuOpen.value;
-};
-
-const menu = [
-    { name: "Dashboard", icon: "mdi:home-outline", page: "dashboard" },
-    {
-        name: "Deviations", icon: "mage:robot-fill", submenu: [
-            { name: "Deviation List", icon: "ic:round-library-books", page: "deviation-list" },
-            { name: "Deviation Types", icon: "ic:round-category", page: "deviation-types" },
-            { name: "Deviation Needs", icon: "ic:round-list-alt", page: "deviation-needs" },
-        ]
-    },
-    {
-        name: "Scenarios", icon: "mdi:world", submenu: [
-            { name: "Scenario List", icon: "ic:round-list-alt", page: "scenario-list" },
-            { name: "Visional Wheels", icon: "solar:moon-linear", page: "visional-wheels" },
-        ]
-    },
-    { name: "Silos", icon: "material-symbols:door-open-outline-sharp", page: "silos" }
-
-]
 
 </script>
 

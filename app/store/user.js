@@ -5,6 +5,7 @@ export const useDataStore = defineStore('data', {
     devNeeds: [],
     devTypes: [],
     devs: [],
+    locations: [],
     scenarios: [],
     scenarioTypes: [],
     silos: [],
@@ -26,6 +27,9 @@ export const useDataStore = defineStore('data', {
     },
     setDevs(devs) {
       this.devs = devs;
+    },
+    setLocations(loc) {
+      this.locations = loc;
     },
     setScenarios(scenarios) {
       this.scenarios = scenarios;
@@ -83,6 +87,7 @@ export const useUserStore = defineStore('user', {
     },
     logout() {
       this.user = '';
+      this.page = 'dashboard';
       this.isLoggedIn = false;
     }
   },
