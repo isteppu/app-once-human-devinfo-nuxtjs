@@ -4,7 +4,7 @@ import { ref } from 'vue';
 </script>
 
 <template>
-  <div data-aos="slide-up">
+  <div data-aos="fade-left">
     <h1>Deviation Types</h1>
   </div>
 </template>

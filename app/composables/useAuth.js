@@ -1,8 +1,10 @@
 import { ref } from "vue";
 import { useUserStore } from "~/store/user";
+import { useDataStore } from "~/store/user";
 
 export function useAuth() {
     const userStore = useUserStore();
+    const dataStore = useDataStore();
     const adminUsername = ref('');
     const showPassword = ref(false);
     const loading = ref(false);
@@ -19,15 +21,13 @@ export function useAuth() {
     });
 
     const checkStore = () => {
-        if (!userStore.isLoggedIn) {
-            return navigateTo('/backoffice')
-        } else {
-            adminUsername.value = userStore.user;
-        }
+        console.log("Login? ", userStore.isLoggedIn)
+        adminUsername.value = userStore.user;
     }
 
     const logout = () => {
         userStore.logout();
+        dataStore.resetData();
         navigateTo('/backoffice')
     }
 
@@ -76,8 +76,8 @@ export function useAuth() {
                             class: "btn btn-primary",
                             func: () => {
                                 alertVisible.value = false;
-                                userStore.setUser(username.value);
                                 userStore.setLoggedIn(true);
+                                userStore.setUser(username.value);
                                 navigateTo("/backoffice/admin");
                             },
                         },

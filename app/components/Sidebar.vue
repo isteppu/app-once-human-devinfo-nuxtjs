@@ -3,9 +3,11 @@ import { onMounted } from 'vue';
 import { useAuth } from '~/composables/useAuth';
 import { useUi } from '#imports';
 import { useUserStore } from "~/store/user";
+import { useUIStore } from '~/store/user';
 
 const userStore = useUserStore();
-const { adminUsername, checkStore } = useAuth();
+const uiStore = useUIStore();
+const { adminUsername, checkStore, logout } = useAuth();
 const { isMobileMenuOpen, menu, toggleMenu } = useUi();
 
 
@@ -16,7 +18,7 @@ onMounted(() => {
 </script>
 
 <template>
-    <div data-aos="slide-right" class="fixed z-[12] w-full">
+    <div data-aos="slide-right" class="fixed z-[12] w-full" :style="{ 'pointer-events': uiStore.sideBarPointerEvents }">
         <div class="hidden md:flex flex-col w-70 h-screen fixed top-0 left-0 text-white transition-all duration-300">
             <div class="p-6">
                 <div class="w-full h-[120px] flex flex-col  items-center justify-center">

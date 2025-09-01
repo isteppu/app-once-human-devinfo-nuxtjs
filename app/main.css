@@ -7,6 +7,7 @@
 body, :root, #app {
   height: 100%;
   font-family: "Plus Jakarta Sans", sans-serif;
+  color-scheme: light !important;
 }
 
 .bs-neon {

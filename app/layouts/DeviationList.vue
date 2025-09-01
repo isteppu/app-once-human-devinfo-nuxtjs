@@ -7,12 +7,11 @@ const {
   deviations,
   locations,
   scenarios,
-  loading,
-  alertVisible,
-  alertDetails,
+  devTypes,
   fetchDeviationData,
   fetchLocations,
   fetchScenarios,
+  fetchDevTypes,
 } = useFetchData();
 
 const { addDevDialogVisible, openAddDevDialog } = useUi();
@@ -21,12 +20,13 @@ onMounted(() => {
   fetchDeviationData();
   fetchLocations();
   fetchScenarios();
+  fetchDevTypes();
 })
 
 </script>
 
 <template>
-  <div data-aos="slide-up" class="h-full">
+  <div data-aos="fade-left" class="h-full">
     <div class="w-full px-2 pt-5 md:p-10 h-full">
       <h1 class="text-2xl font-bold">Deviation List</h1>
       <h1 class="text-md font-thin mt-2">
@@ -38,7 +38,7 @@ onMounted(() => {
             <Icon name="ic:round-search" class="text-2xl text-gray-500/50" />
             <input type="search" class="grow placeholder:text-gray-500/50 text-gray-500" placeholder="Search" />
           </label>
-          <button class="bg-cyan-900 px-5 py-2 rounded-xs text-sm shadow-md hover:bg-neutral-900" @click="openAddDevDialog">
+          <button class="bg-cyan-900 px-5 py-2 rounded-xs text-sm shadow-md hover:bg-neutral-900 hover:cursor-pointer" @click="openAddDevDialog">
             Add Deviation
           </button>
         </div>
@@ -108,7 +108,7 @@ onMounted(() => {
           </table>
         </div>
 
-        <AddDeviationDialog v-if="addDevDialogVisible" :locations="locations" :scenarios="scenarios"/>
+        <AddDeviationDialog v-if="locations && scenarios && addDevDialogVisible" :locations="locations" :scenarios="scenarios" :devTypes="devTypes"/>
       </div>
     </div>
   </div>

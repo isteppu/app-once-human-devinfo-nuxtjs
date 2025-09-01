@@ -1,33 +1,27 @@
 import { ref, computed } from "vue";
+import { useUIStore } from "~/store/user";
+
+const addDevDialogVisible = ref(false);
 
 export function useUi() {
     const isMobileMenuOpen = ref(false);
-    const addDevDialogVisible = ref(false);
-
-    const checked = ref(
-        // scenarios.map(() => headers.map(() => false))
-    );
+    const uiStore = useUIStore();
 
     const toggleMenu = () => {
-        isMobileMenuOpen.value = !isMobileMenuOpen.value;
+        if(uiStore.sideBarPointerEvents === 'auto'){
+            isMobileMenuOpen.value = !isMobileMenuOpen.value;
+        }
     };
 
     const openAddDevDialog = () => {
+        uiStore.setSideBarPointerEvents('none')
         addDevDialogVisible.value = true;
     };
 
-    const location = computed(() =>
-        checked.value.map((row, rowIndex) => {
-            // const loc = row
-            //     .map((isChecked, colIndex) => (isChecked ? colIndex : null))
-            //     .filter((v) => v !== null);
-
-            return {
-                // id: rowIndex,
-                // loc: loc.length > 0 ? loc : "none",
-            };
-        })
-    );
+    const closeAddDevDialog = () => {
+        uiStore.setSideBarPointerEvents('auto')
+        addDevDialogVisible.value = false;
+    };
 
     const menu = [
         { name: "Dashboard", icon: "mdi:home-outline", page: "dashboard" },
@@ -51,8 +45,6 @@ export function useUi() {
     return {
         //data
         menu,
-        // headers,
-        checked,
 
         //state
         isMobileMenuOpen,
@@ -61,5 +53,6 @@ export function useUi() {
         //methods
         toggleMenu,
         openAddDevDialog,
+        closeAddDevDialog,
     }
 }
