@@ -9,10 +9,11 @@ export default defineEventHandler(async (event) => {
         try {
             const ref = db.ref(refPath);
             let result;
+            let snapshot;
 
             switch (operation) {
                 case 'get':
-                    const snapshot = await ref.once('value');
+                    snapshot = await ref.once('value');
                     const value = snapshot.val();
                     if (!value) {
                         throw createError({
@@ -24,15 +25,41 @@ export default defineEventHandler(async (event) => {
                             },
                         });
                     }
-                    result = value;
+                    result = Array.isArray(value) ? value.filter(item => item !== null) : value;
+                    break;
+                case 'post':
+                    snapshot = await db.ref(`Deviations/${data.id}`).once('value');
+                    if (snapshot.exists()) {
+                        throw createError({
+                            statusCode: 409,
+                            statusMessage: 'Conflict',
+                            data: {
+                                success: false,
+                                error: 'A record with this ID already exists. Cannot create a new one.',
+                            },
+                        });
+                    }
+                    await ref.set(data);
+                    result = data;
                     break;
                 case 'put':
                     await ref.update(data);
                     result = data;
                     break;
                 case 'delete':
+                    snapshot = await ref.once('value');
+                    if (!snapshot.exists()) {
+                        throw createError({
+                            statusCode: 404,
+                            statusMessage: 'Not Found',
+                            data: {
+                                success: false,
+                                error: `Item with ID ${id} not found.`
+                            },
+                        });
+                    }
                     await ref.remove();
-                    result = `Item with ID ${ id } deleted successfully.`;
+                    result = `Item with ID ${id} deleted successfully.`;
                     break;
                 default:
                     throw createError({
@@ -67,11 +94,29 @@ export default defineEventHandler(async (event) => {
     };
 
     if (method === 'get') {
-        return handleDatabaseOperation(`Deviations/${id}`, 'get');
+        const refPath = id ? `Deviations/${id}` : 'Deviations';
+        return handleDatabaseOperation(refPath, 'get');
+    } else if (method === 'post') {
+        const postData = await readBody(event);
+        return handleDatabaseOperation(`Deviations/${postData.id}`, 'post', postData);
     } else if (method === 'put') {
+        if (!id) {
+            throw createError({
+                statusCode: 400,
+                statusMessage: 'Bad Request',
+                data: { success: false, error: 'Missing ID for PUT request.' }
+            });
+        }
         const putData = await readBody(event);
         return handleDatabaseOperation(`Deviations/${id}`, 'put', putData);
     } else if (method === 'delete') {
+        if (!id) {
+            throw createError({
+                statusCode: 400,
+                statusMessage: 'Bad Request',
+                data: { success: false, error: 'Missing ID for DELETE request.' }
+            });
+        }
         return handleDatabaseOperation(`Deviations/${id}`, 'delete');
     } else {
         throw createError({ statusCode: 405, statusMessage: 'Method Not Allowed' });

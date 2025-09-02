@@ -1,8 +1,6 @@
 <script setup>
 import { onMounted } from 'vue';
 import { useUserStore } from "~/store/user";
-import { useAuth } from "~/composables/useAuth";
-import AlertDialog from '~/components/AlertDialog.vue';
 
 const userStore = useUserStore();
 const {

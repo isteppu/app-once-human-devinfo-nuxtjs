@@ -65,6 +65,17 @@ export default defineEventHandler(async (event) => {
         return handleDatabaseOperation('DeviationTypes', 'get');
     } else if (method === 'post') {
         const postData = await readBody(event);
+        const existingData = await db.ref(`DeviationTypes/${postData.id}`).once('value');
+        if (existingData.exists()) {
+            throw createError({
+                statusCode: 409,
+                statusMessage: 'Conflict',
+                data: {
+                    success: false,
+                    error: 'A record with this ID already exists. Cannot create a new one.',
+                },
+            });
+        }
         return handleDatabaseOperation(`DeviationTypes/${postData.id}`, 'post', postData);
     } else {
         throw createError({ statusCode: 405, statusMessage: 'Method Not Allowed' });

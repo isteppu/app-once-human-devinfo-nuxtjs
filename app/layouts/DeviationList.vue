@@ -1,32 +1,30 @@
 <script setup>
 import { onMounted } from "vue";
-import { useFetchData } from "~/composables/useFetchData";
-import { useUi } from "#imports";
 
 const {
   deviations,
   locations,
   scenarios,
   devTypes,
-  fetchDeviationData,
-  fetchLocations,
-  fetchScenarios,
-  fetchDevTypes,
+  devNeeds,
+  fetchAlertDetails,
+  fetchAlertVisible,
+  refreshDevs
 } = useFetchData();
+
+const {
+  alertDetails,
+  alertVisible
+} = usePostData();
 
 const { addDevDialogVisible, openAddDevDialog } = useUi();
 
-onMounted(() => {
-  fetchDeviationData();
-  fetchLocations();
-  fetchScenarios();
-  fetchDevTypes();
-})
+const { deleteAlertDetails, deleteAlertVisible, deleteData } = useDeleteData();
 
 </script>
 
 <template>
-  <div data-aos="fade-left" class="h-full">
+  <div class="h-full relative">
     <div class="w-full px-2 pt-5 md:p-10 h-full">
       <h1 class="text-2xl font-bold">Deviation List</h1>
       <h1 class="text-md font-thin mt-2">
@@ -38,7 +36,8 @@ onMounted(() => {
             <Icon name="ic:round-search" class="text-2xl text-gray-500/50" />
             <input type="search" class="grow placeholder:text-gray-500/50 text-gray-500" placeholder="Search" />
           </label>
-          <button class="bg-cyan-900 px-5 py-2 rounded-xs text-sm shadow-md hover:bg-neutral-900 hover:cursor-pointer" @click="openAddDevDialog">
+          <button class="bg-cyan-900 px-5 py-2 rounded-xs text-sm shadow-md hover:bg-neutral-900 hover:cursor-pointer"
+            @click="openAddDevDialog">
             Add Deviation
           </button>
         </div>
@@ -55,7 +54,7 @@ onMounted(() => {
               </tr>
             </thead>
             <tbody v-if="deviations">
-              <tr v-for="(deviation, index) in deviations" :key="'deviation-list' + index"
+              <tr v-for="(deviation, index) in deviations.result" :key="'deviation-list' + index"
                 class="bg-white border-b-1 border-cyan-900/30">
                 <td class="text-xs text-cyan-800">{{ deviation.id + 1 }}</td>
                 <td class="text-md text-cyan-800 font-extrabold">
@@ -92,7 +91,7 @@ onMounted(() => {
                   </button>
                 </td>
                 <td>
-                  <button class="btn btn-sm bg-red-900 text-white">
+                  <button class="btn btn-sm bg-red-900 text-white" @click="async() => { await deleteData(`/deviations/${deviation.id}`, deviation.name); refreshDevs()}">
                     <Icon name="mdi:delete" class="text-lg"></Icon>
                   </button>
                 </td>
@@ -107,10 +106,16 @@ onMounted(() => {
             </tbody>
           </table>
         </div>
-
-        <AddDeviationDialog v-if="locations && scenarios && addDevDialogVisible" :locations="locations" :scenarios="scenarios" :devTypes="devTypes"/>
       </div>
     </div>
+    <AddDeviationDialog v-if="locations && scenarios && addDevDialogVisible" :locations="locations.result"
+      :scenarios="scenarios.result" :devTypes="devTypes.result" :devNeeds="devNeeds.result" :deviations="deviations.result" />
+    <AlertDialog v-if="alertVisible" :title="alertDetails.title" :desc="alertDetails.desc"
+      :buttons="alertDetails.buttons" />
+    <AlertDialog v-if="fetchAlertVisible" :title="fetchAlertDetails.title" :desc="fetchAlertDetails.desc"
+      :buttons="fetchAlertDetails.buttons" />
+    <AlertDialog v-if="deleteAlertVisible" :title="deleteAlertDetails.title" :desc="deleteAlertDetails.desc"
+      :buttons="deleteAlertDetails.buttons" />
   </div>
 </template>
 

@@ -1,8 +1,9 @@
 <script setup>
 import { ref, computed } from 'vue';
-import { useUi } from '#imports';
 
 const { closeAddDevDialog } = useUi();
+const { loading, postData } = usePostData();
+const { refreshDevs } = useFetchData();
 const props = defineProps({
   scenarios: {
     type: Array,
@@ -33,8 +34,37 @@ const props = defineProps({
       { id: 1, type: "type 2" },
     ]),
     required: true
+  },
+  devNeeds: {
+    type: Array,
+    default: () => ([
+      { id: 0, need: "need 1" },
+      { id: 1, need: "need 2" },
+      { id: 2, need: "need 3" },
+      { id: 3, need: "need 4" },
+      { id: 4, need: "need 5" },
+    ]),
+    required: true
+  },
+  deviations: {
+    type: Array,
+    default: () => ([
+      { id: 0, dev: "dev 1" },
+      { id: 1, dev: "dev 2" },
+      { id: 2, dev: "dev 3" },
+      { id: 3, dev: "dev 4" },
+      { id: 4, dev: "dev 5" },
+    ]),
+    required: true
   }
 })
+
+const devName = ref('');
+const devID = ref('');
+const devDescription = ref('');
+const devType = ref('');
+const devNotes = ref('');
+const devNeedsChecked = ref([]);
 
 const checked = ref(
   props.scenarios.map(() => props.locations.map(() => false))
@@ -53,16 +83,46 @@ const location = computed(() =>
   })
 );
 
-const logData = () => {
-  console.log("📦 Output:", location.value);
+const addDeviation = async () => {
+  const body = {
+    desc: devDescription.value || "none",
+    location: location.value,
+    name: devName.value,
+    needs: devNeedsChecked.value.length > 0 ? devNeedsChecked.value : "none",
+    type: devType.value || "none",
+    variants: "none",
+    note: devNotes.value || "none",
+    id: devID.value
+  };
+
+  await postData("/deviations", body)
+  refreshDevs();
+  closeAddDevDialog();
 };
 
+const getAvailableIds = (deviations) => {
+  const maxRange = 56;
+  const usedIds = new Set(deviations.map(d => d.id));
+  const available = [];
+
+  for (let i = 0; i <= maxRange; i++) {
+    if (!usedIds.has(i)) {
+      available.push(i);
+    }
+  }
+
+  if (available.length === 0) {
+    available.push(maxRange + 1);
+  }
+
+  return available;
+};
 </script>
 
 <template>
-  <div class="!w-full h-screen absolute -top-10 left-0 flex justify-center items-center p-5 backdrop-blur-sm">
+  <div class="!w-full h-full absolute top-0 left-0 flex justify-center items-center p-5 backdrop-blur-sm">
     <div data-aos="fade-up"
-      class="bg-gray-200 bs-neon rounded-lg p-10 max-w-xlg text-white transition-transform duration-300 ease-in-out scale-100">
+      class="bg-gray-200 bs-neon rounded-lg p-10 max-w-xlg text-white transition-transform duration-300 ease-in-out scale-100 border-1 border-white">
 
       <h2 class="text-xl text-cyan-800 font-semibold uppercase">Add Deviation</h2>
       <p class="mt-2 text-cyan-800 font-thin">Please fill out all the fields</p>
@@ -70,28 +130,47 @@ const logData = () => {
       <div class="mt-5 flex flex-col w-full gap-3">
         <div class="flex flex-row">
           <div class="flex flex-col gap-2">
-            <label for="dev-name" class="text-cyan-800 text-sm font-bold">Name</label>
-            <input type="text" id="dev-name" placeholder="Deviation Name"
-              class="input bg-white !outline-none placeholder:text-gray-500/50 text-gray-500 w-full md:w-[300px]" />
+            <div class="flex flex-row gap-2">
+              <div class="flex flex-col gap-2">
+                <label for="dev-name" class="text-cyan-800 text-sm font-bold">Name</label>
+                <input type="text" id="dev-name" placeholder="Deviation Name" v-model="devName"
+                  class="input bg-white !outline-none placeholder:text-gray-500/50 text-gray-500 w-full md:w-[180px]" />
+              </div>
+              <div class="flex flex-col gap-2">
+                <label for="dev-id" class="text-cyan-800 text-sm font-bold">ID</label>
+                <select id="dev-id" class="select w-full md:w-[110px] bg-white !outline-none text-gray-500/50"
+                  v-model="devID">
+                  <option disabled selected value="">Pick ID</option>
+                  <option v-for="(id, index) in getAvailableIds(deviations)" :key="'dev-id-option-' + index"
+                    :value="id">
+                    {{ id }}
+                  </option>
+                </select>
+              </div>
+            </div>
             <label for="dev-description" class="text-cyan-800 text-sm font-bold">Description</label>
-            <textarea type="text" id="dev-description" placeholder="Type description here.. "
-              class="textarea bg-white !outline-none placeholder:text-gray-500/50  text-gray-500 w-full md:w-[300px] multiline"></textarea>
+            <textarea type="text" id="dev-description" placeholder="Type description here.. " v-model="devDescription"
+              class="textarea bg-white !outline-none placeholder:text-gray-500/50 text-gray-500 w-full md:w-[300px] multiline"></textarea>
             <label for="dev-type" class="text-cyan-800 text-sm font-bold">Type</label>
-            <select id="dev-type" class="select  w-full md:w-[300px] bg-white !outline-none text-gray-500/50 ">
-              <option disabled selected>Deviation Type</option>
-              <option v-for="(type, index) in devTypes" :key="'dev-type-option-' + index">
+            <select id="dev-type" class="select w-full md:w-[300px] bg-white !outline-none text-gray-500/50"
+              v-model="devType">
+              <option disabled selected value="">Deviation Type</option>
+              <option v-for="(type, index) in devTypes" :key="'dev-type-option-' + index" :value="type.id">
                 {{ type.type }}
               </option>
             </select>
+            <label for="dev-notes" class="text-cyan-800 text-sm font-bold">Notes</label>
+            <textarea type="text" id="dev-notes" placeholder="Type notes here.. " v-model="devNotes"
+              class="textarea bg-white !outline-none placeholder:text-gray-500/50 text-gray-500 w-full md:w-[300px] multiline"></textarea>
           </div>
           <div class="pl-20">
             <label for="dev-location" class="ml-2 text-cyan-800 text-sm font-bold">Locations</label>
-            <table id="dev-location" class="table-xs border-collapse w-full md:w-[400px] text-center">
+            <table id="dev-location" class="mb-2 table-xs border-collapse w-full md:w-[400px] text-center">
               <thead>
                 <tr>
                   <th class="text-cyan-800/60 uppercase text-left">Scenarios</th>
                   <th v-for="(head, hIndex) in props.locations" class="uppercase text-cyan-800/60"
-                    :key="'Location Header Name ' + hIndex">
+                    :key="'location-header-name-' + hIndex">
                     <div class="dropdown dropdown-hover hover:cursor-help">
                       <div role="button" :tabindex="hIndex" class="flex gap-1">
                         <h1>{{ head.key }}</h1>
@@ -107,28 +186,40 @@ const logData = () => {
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="(scenario, rowIndex) in props.scenarios" :key="'Scenario Row Name ' + rowIndex">
+                <tr v-for="(scenario, rowIndex) in props.scenarios" :key="'scenario-row-name-' + rowIndex">
                   <td class="text-cyan-800 text-left">{{ scenario.name }}</td>
                   <td v-for="(head, colIndex) in locations" :key="colIndex">
-                    <input type="checkbox" class="bg-white checkbox checkbox-accent" v-model="checked[rowIndex][colIndex]" />
+                    <input type="checkbox" class="bg-white checkbox checkbox-accent"
+                      v-model="checked[rowIndex][colIndex]" />
                   </td>
                 </tr>
               </tbody>
             </table>
+            <label for="dev-needs" class="ml-2 text-cyan-800 text-sm font-bold">Deviation Needs</label>
+            <div id="dev-needs" class="mt-2 ml-2 grid grid-cols-3 gap-2">
+              <div v-for="(need, index) in props.devNeeds" :key="'dev-needs-option-' + index" class="flex">
+                <input type="checkbox" class="checkbox checkbox-accent bg-white" :value="need.id"
+                  v-model="devNeedsChecked" />
+                <h1 class="text-cyan-800 text-xs ml-2">
+                  {{ need.need }}
+                </h1>
+              </div>
+            </div>
           </div>
         </div>
         <div>
 
         </div>
         <div class="flex flex-row gap-2 mt-4">
-          <button @click="logData" class="btn bg-cyan-800 text-white rounded ">
+          <button :disabled="loading" @click="addDeviation"
+            class="btn bg-cyan-800 text-white rounded disabled:bg-cyan-500">
             Log Data
           </button>
-          <button @click="closeAddDevDialog" class="btn bg-red-900 text-white rounded ">
+          <button :disabled="loading" @click="closeAddDevDialog"
+            class="btn bg-red-900 text-white rounded disabled:bg-red-500">
             Cancel
           </button>
         </div>
-
       </div>
     </div>
   </div>

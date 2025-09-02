@@ -1,7 +1,5 @@
 <script setup>
 import { onMounted } from 'vue';
-import { useAuth } from '~/composables/useAuth';
-import { useUi } from '#imports';
 import { useUserStore } from "~/store/user";
 import { useUIStore } from '~/store/user';
 

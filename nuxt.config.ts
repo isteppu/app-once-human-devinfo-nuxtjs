@@ -13,6 +13,13 @@ export default defineNuxtConfig({
     preference: 'light',
     fallback: 'light',
   },
+  vue: {
+    compilerOptions: {
+      compatConfig: {
+        MODE: 3
+      }
+    }
+  },
   modules: [
     '@nuxt/ui',
     '@nuxt/image',
