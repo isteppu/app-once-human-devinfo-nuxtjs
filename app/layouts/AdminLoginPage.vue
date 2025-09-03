@@ -4,22 +4,22 @@ import { useUserStore } from "~/store/user";
 
 const userStore = useUserStore();
 const {
-  username,
-  password,
-  showPassword,
-  loading,
-  usernameError,
-  passwordError,
-  loginError,
-  alertVisible,
-  alertDetails,
-  validateForm,
+    username,
+    password,
+    showPassword,
+    loading,
+    usernameError,
+    passwordError,
+    loginError,
+    alertVisible,
+    alertDetails,
+    validateForm,
 } = useAuth();
 
 onMounted(() => {
-  if (userStore.isLoggedIn) {
-    navigateTo("/backoffice/admin");
-  }
+    if (userStore.isLoggedIn) {
+        navigateTo("/backoffice/admin");
+    }
 });
 
 </script>

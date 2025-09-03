@@ -13,29 +13,29 @@ const userStore = useUserStore()
 const isReady = ref(false)
 
 const pages = {
-  'dashboard': Dashboard,
-  'deviation-list': DeviationList,
-  'deviation-needs': DeviationNeeds,
-  'deviation-types': DeviationTypes,
-  'scenario-list': ScenarioList,
-  'visional-wheels': VisionalWheels,
-  'silos': Silos,
+	'dashboard': Dashboard,
+	'deviation-list': DeviationList,
+	'deviation-needs': DeviationNeeds,
+	'deviation-types': DeviationTypes,
+	'scenario-list': ScenarioList,
+	'visional-wheels': VisionalWheels,
+	'silos': Silos,
 }
 
 const currentComponent = computed(() => {
-  return pages[userStore.page] || pages['dashboard']
+	return pages[userStore.page] || pages['dashboard']
 })
 
 onMounted(() => {
-  isReady.value = true
+	isReady.value = true
 })
 </script>
 
 <template>
-  <Sidebar />
-  <div class="pl-5 pr-5 py-10 md:pl-72 h-screen">
-    <div class="bg-none md:bg-[#05373E] h-full w-full rounded-3xl p-5">
-      <component v-if="isReady" data-aos="fade-left" :is="currentComponent" />
-    </div>
-  </div>
+	<Sidebar />
+	<div class="pl-5 pr-5 py-10 md:pl-72 h-screen">
+		<div class="bg-none md:bg-[#05373E] h-full w-full rounded-3xl p-5">
+			<component v-if="isReady" data-aos="fade-left" :is="currentComponent" />
+		</div>
+	</div>
 </template>
