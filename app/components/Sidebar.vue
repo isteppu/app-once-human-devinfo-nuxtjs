@@ -1,55 +1,22 @@
 <script setup>
-import { ref, onMounted } from 'vue';
-import { useUserStore } from '../../../store/user';
+import { onMounted } from 'vue';
+import { useUserStore } from "~/store/user";
+import { useUIStore } from '~/store/user';
 
 const userStore = useUserStore();
-const adminUsername = ref('');
-const isMobileMenuOpen = ref(false);
+const uiStore = useUIStore();
+const { adminUsername, checkStore, logout } = useAuth();
+const { isMobileMenuOpen, menu, toggleMenu } = useUi();
 
-const checkStore = () => {
-    if (!userStore.isLoggedIn) {
-        navigateTo('/ohbo')
-    } else {
-        adminUsername.value = userStore.user;
-    }
-}
-
-const logout = () => {
-    userStore.logout();
-    navigateTo('/ohbo')
-}
 
 onMounted(() => {
     checkStore();
 });
 
-const toggleMenu = () => {
-    isMobileMenuOpen.value = !isMobileMenuOpen.value;
-};
-
-const menu = [
-    { name: "Dashboard", icon: "mdi:home-outline", page: "dashboard" },
-    {
-        name: "Deviations", icon: "mage:robot-fill", submenu: [
-            { name: "Deviation List", icon: "ic:round-library-books", page: "deviation-list" },
-            { name: "Deviation Types", icon: "ic:round-category", page: "deviation-types" },
-            { name: "Deviation Needs", icon: "ic:round-list-alt", page: "deviation-needs" },
-        ]
-    },
-    {
-        name: "Scenarios", icon: "mdi:world", submenu: [
-            { name: "Scenario List", icon: "ic:round-list-alt", page: "scenario-list" },
-            { name: "Visional Wheels", icon: "solar:moon-linear", page: "visional-wheels" },
-        ]
-    },
-    { name: "Silos", icon: "material-symbols:door-open-outline-sharp", page: "silos" }
-
-]
-
 </script>
 
 <template>
-    <div data-aos="slide-right" class="fixed z-[12] w-full">
+    <div data-aos="slide-right" class="fixed z-[12] w-full" :style="{ 'pointer-events': uiStore.sideBarPointerEvents }">
         <div class="hidden md:flex flex-col w-70 h-screen fixed top-0 left-0 text-white transition-all duration-300">
             <div class="p-6">
                 <div class="w-full h-[120px] flex flex-col  items-center justify-center">

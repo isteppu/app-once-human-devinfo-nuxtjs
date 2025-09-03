@@ -1,5 +1,5 @@
 import { defineEventHandler, createError, getRouterParams, readBody } from 'h3';
-import { handleGet, handlePut, handleDelete } from '../../../utils/database-operations';
+import { handleGet, handlePut, handleDelete } from '../../utils/database-operations';
 
 export default defineEventHandler(async (event) => {
     const method = event.node.req.method.toLowerCase();
@@ -9,7 +9,7 @@ export default defineEventHandler(async (event) => {
         throw createError({ statusCode: 400, statusMessage: 'Bad Request', data: { success: false, error: 'Missing ID in URL.' } });
     }
 
-    const refPath = `DeviationNeeds/${id}`;
+    const refPath = `Scenario/${id}`;
 
     try {
         let result;

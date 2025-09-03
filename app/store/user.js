@@ -1,10 +1,20 @@
 import { defineStore } from 'pinia';
 
+/**
+ * @typedef {Object} UserState
+ * @property {string} user
+ * @property {boolean} isLoggedIn
+ * @property {string} page
+ */
+
+
+
 export const useDataStore = defineStore('data', {
   state: () => ({
     devNeeds: [],
     devTypes: [],
     devs: [],
+    locations: [],
     scenarios: [],
     scenarioTypes: [],
     silos: [],
@@ -26,6 +36,9 @@ export const useDataStore = defineStore('data', {
     },
     setDevs(devs) {
       this.devs = devs;
+    },
+    setLocations(loc) {
+      this.locations = loc;
     },
     setScenarios(scenarios) {
       this.scenarios = scenarios;
@@ -59,6 +72,23 @@ export const useDataStore = defineStore('data', {
     },
     setSelectedSilosType(silosType) {
       this.selectedSilosType = silosType;
+    },
+    resetData() {
+      this.devNeeds = [];
+      this.devTypes = [];
+      this.devs = [];
+      this.locations = [];
+      this.scenarios = [];
+      this.scenarioTypes = [];
+      this.silos = [];
+      this.silosTypes = [];
+      this.selectedDevType = '';
+      this.selectedDecNeed = '';
+      this.selectedDev = '';
+      this.selectedScenario = '';
+      this.selectedScenarioType = '';
+      this.selectedSilo = '';
+      this.selectedSiloType = '';
     }
   },
   persist: true,
@@ -72,19 +102,35 @@ export const useUserStore = defineStore('user', {
     page: 'dashboard',
   }),
   actions: {
-    setUser(user){
-      this.user = user;
-    },
+    /** @param {boolean} isLoggedIn */
     setLoggedIn(isLoggedIn){
       this.isLoggedIn = isLoggedIn;
     },
+    /** @param {string} user */
+    setUser(user){
+      this.user = user;
+    },
+     /** @param {string} page */
     setPage(page){
       this.page = page;
     },
     logout() {
       this.user = '';
+      this.page = 'dashboard';
       this.isLoggedIn = false;
     }
   },
   persist: true
+})
+
+export const useUIStore = defineStore('ui', {
+  state: () => ({
+    sideBarPointerEvents: 'auto',
+  }),
+  actions: {
+    setSideBarPointerEvents(pointerEvents){
+      this.sideBarPointerEvents = pointerEvents;
+    }
+  },
+  persist: false
 })
