@@ -25,3 +25,6 @@ logs
 .fleet
 .idea
 
+# Firebase Admin SDK Credentials
+service-account.json
+
