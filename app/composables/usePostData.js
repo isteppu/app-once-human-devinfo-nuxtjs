@@ -14,12 +14,13 @@ export function usePostData() {
 	const data = ref(null)
 
 	const postData = async (endpoint, body, options = {}) => {
-		loading.value = true
-		error.value = null
+		loading.value = true;
+		error.value = null;
+		const method = /\d/.test(endpoint) ? "PUT" : "POST";
 
 		try {
 			const { data: response, error: fetchError } = await useFetch('/api' + endpoint, {
-				method: 'POST',
+				method: method,
 				body,
 				...options,
 			})

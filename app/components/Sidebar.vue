@@ -16,7 +16,7 @@ onMounted(() => {
 </script>
 
 <template>
-    <div data-aos="slide-right" class="fixed z-[12] w-full" :style="{ 'pointer-events': uiStore.sideBarPointerEvents }">
+    <div data-aos="slide-right" class="fixed z-[12] w-full" :style="{ 'pointer-events': uiStore.sideBarPointerEvents }" :inert="uiStore.sideBarPointerEvents === 'none'">
         <div class="hidden md:flex flex-col w-70 h-screen fixed top-0 left-0 text-white transition-all duration-300">
             <div class="p-6">
                 <div class="w-full h-[120px] flex flex-col  items-center justify-center">

@@ -2,6 +2,8 @@ import { ref, computed } from "vue";
 import { useUIStore } from "~/store/user";
 
 const addDevDialogVisible = ref(false);
+const editDevDialogVisible = ref(false);
+const selectedDev = ref(null);
 
 export function useUi() {
     const isMobileMenuOpen = ref(false);
@@ -21,6 +23,17 @@ export function useUi() {
     const closeAddDevDialog = () => {
         uiStore.setSideBarPointerEvents('auto')
         addDevDialogVisible.value = false;
+    };
+
+    const openEditDevDialog = (dev) => {
+        uiStore.setSideBarPointerEvents('none')
+        selectedDev.value = dev;
+        editDevDialogVisible.value = true;
+    };
+
+    const closeEditDevDialog = () => {
+        uiStore.setSideBarPointerEvents('auto')
+        editDevDialogVisible.value = false;
     };
 
     const menu = [
@@ -49,10 +62,14 @@ export function useUi() {
         //state
         isMobileMenuOpen,
         addDevDialogVisible,
+        editDevDialogVisible,
+        selectedDev,
 
         //methods
         toggleMenu,
         openAddDevDialog,
         closeAddDevDialog,
+        openEditDevDialog,
+        closeEditDevDialog
     }
 }
