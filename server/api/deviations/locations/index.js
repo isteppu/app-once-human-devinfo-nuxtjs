@@ -1,29 +1,22 @@
-import { defineEventHandler, createError, getRouterParams, readBody } from 'h3';
-import { handleGet, handlePut, handleDelete } from '../../../utils/database-operations';
+import { defineEventHandler, createError, readBody } from 'h3';
+import { handleGet, handlePost } from '../../../utils/database-operations';
 
 export default defineEventHandler(async (event) => {
     const method = event.node.req.method.toLowerCase();
-    const { id } = getRouterParams(event);
-
-    if (!id) {
-        throw createError({ statusCode: 400, statusMessage: 'Bad Request', data: { success: false, error: 'Missing ID in URL.' } });
-    }
-
-    const refPath = `DeviationNeeds/${id}`;
 
     try {
         let result;
 
         switch (method) {
             case 'get':
-                result = await handleGet(refPath);
+                result = await handleGet('Locations');
                 break;
-            case 'put':
-                const putData = await readBody(event);
-                result = await handlePut(refPath, putData);
-                break;
-            case 'delete':
-                result = await handleDelete(refPath);
+            case 'post':
+                const postData = await readBody(event);
+                if (!postData.id) {
+                    throw createError({ statusCode: 400, statusMessage: 'Bad Request', data: { success: false, error: 'Missing ID for POST request.' } });
+                }
+                result = await handlePost(`Locations/${postData.id}`, postData);
                 break;
             default:
                 throw createError({ statusCode: 405, statusMessage: 'Method Not Allowed' });

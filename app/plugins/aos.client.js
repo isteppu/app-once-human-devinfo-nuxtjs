@@ -1,14 +1,20 @@
-import AOS from 'aos';
-import 'aos/dist/aos.css';
+import AOS from 'aos'
+import 'aos/dist/aos.css'
 
 export default defineNuxtPlugin((nuxtApp) => {
-  if (typeof window !== 'undefined') {
+  if (import.meta.client) {
     nuxtApp.hook('app:mounted', () => {
-      AOS.init({
-        duration: 600,
-        easing: 'ease-in-sine',
-        once: true,
-      });
-    });
+      AOS.init()
+      AOS.refreshHard()
+    })
+
+  //   nuxtApp.hook('page:finish', () => {
+  //     document.querySelectorAll("[data-aos]").forEach(el => {
+  //   el.removeAttribute("data-aos");
+  // });
+  //     setTimeout(() => {
+  //       AOS.refreshHard()
+  //     }, 100)
+  //   })
   }
-});
+})

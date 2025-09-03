@@ -1,9 +1,11 @@
 <script setup>
+import { ref } from 'vue';
 
 </script>
 
 <template>
-  <div>
+  <div >
+   <h1>Silos</h1>
   </div>
 </template>
 

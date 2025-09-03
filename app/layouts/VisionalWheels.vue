@@ -4,8 +4,8 @@ import { ref } from 'vue';
 </script>
 
 <template>
-  <div data-aos="slide-up">
-    <h1>Deviation List</h1>
+  <div >
+   <h1>Visional Wheels</h1>
   </div>
 </template>
 

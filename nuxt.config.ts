@@ -9,6 +9,17 @@ export default defineNuxtConfig({
       autoprefixer: {}
     }
   },
+  colorMode: {
+    preference: 'light',
+    fallback: 'light',
+  },
+  vue: {
+    compilerOptions: {
+      compatConfig: {
+        MODE: 3
+      }
+    }
+  },
   modules: [
     '@nuxt/ui',
     '@nuxt/image',

@@ -9,7 +9,7 @@ export default defineEventHandler(async (event) => {
         throw createError({ statusCode: 400, statusMessage: 'Bad Request', data: { success: false, error: 'Missing ID in URL.' } });
     }
 
-    const refPath = `DeviationNeeds/${id}`;
+    const refPath = `Locations/${id}`;
 
     try {
         let result;

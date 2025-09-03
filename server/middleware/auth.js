@@ -43,17 +43,15 @@ export default defineEventHandler(async (event) => {
     }
 
     if (incomingApiKey === API_KEY || isTokenValid) {
-        // Continue to the next handler
         return;
     }
 
-    // If neither is valid, throw an error
     throw createError({
         statusCode: 401,
         statusMessage: 'Unauthorized',
         data: {
             success: false,
-            error: 'Invalid or missing authentication credentials (API key or JWT token).'
+            error: 'Invalid authentication credentials or your token has expired.'
         },
     });
 });
