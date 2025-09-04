@@ -4,7 +4,7 @@ import { useUserStore } from '~/store/user'
 import Dashboard from './Dashboard.vue'
 import DeviationList from './DeviationList.vue'
 import DeviationNeeds from './DeviationNeeds.vue'
-import DeviationTypes from './DeviationTypes.vue'
+import DeviationLocations from './DeviationLocations.vue'
 import ScenarioList from './ScenarioList.vue'
 import VisionalWheels from './VisionalWheels.vue'
 import Silos from './Silos.vue'
@@ -16,7 +16,7 @@ const pages = {
 	'dashboard': Dashboard,
 	'deviation-list': DeviationList,
 	'deviation-needs': DeviationNeeds,
-	'deviation-types': DeviationTypes,
+	'deviation-locations': DeviationLocations,
 	'scenario-list': ScenarioList,
 	'visional-wheels': VisionalWheels,
 	'silos': Silos,

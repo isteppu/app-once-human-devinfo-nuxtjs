@@ -41,7 +41,7 @@ export function useUi() {
         {
             name: "Deviations", icon: "mage:robot-fill", submenu: [
                 { name: "Deviation List", icon: "ic:round-library-books", page: "deviation-list" },
-                { name: "Deviation Types", icon: "ic:round-category", page: "deviation-types" },
+                { name: "Deviation Types", icon: "ic:round-category", page: "deviation-locations" },
                 { name: "Deviation Needs", icon: "ic:round-list-alt", page: "deviation-needs" },
             ]
         },
