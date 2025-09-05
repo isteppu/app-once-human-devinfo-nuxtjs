@@ -99,7 +99,7 @@ export const useUserStore = defineStore('user', {
   state: () => ({
     user: '',
     isLoggedIn: false,
-    page: 'dashboard',
+    menu: 'dashboard',
   }),
   actions: {
     /** @param {boolean} isLoggedIn */
@@ -111,14 +111,27 @@ export const useUserStore = defineStore('user', {
       this.user = user;
     },
      /** @param {string} page */
-    setPage(page){
-      this.page = page;
+    setMenu(menu){
+      this.menu = menu;
     },
     logout() {
       this.user = '';
-      this.page = 'dashboard';
+      this.menu = 'dashboard';
       this.isLoggedIn = false;
     }
+  },
+  persist: true
+})
+
+export const useMainStore = defineStore('main', {
+  state: () => ({
+    page: 'deviation-list',
+  }),
+  actions: {
+     /** @param {string} page */
+    setPage(page){
+      this.page = page;
+    },
   },
   persist: true
 })

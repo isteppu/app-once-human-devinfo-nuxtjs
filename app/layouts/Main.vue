@@ -1,14 +1,10 @@
 <script setup>
-import { ref } from 'vue';
-
 </script>
 
 <template>
-  <div>
-   Main/Home
-  </div>
+	<div class="bg-[#0B1820] h-screen w-full">
+		<MainSidebar />
+	</div>
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>

@@ -10,54 +10,100 @@ export function useUi() {
     const uiStore = useUIStore();
 
     const toggleMenu = () => {
-        if(uiStore.sideBarPointerEvents === 'auto'){
+        if (uiStore.sideBarPointerEvents === "auto") {
             isMobileMenuOpen.value = !isMobileMenuOpen.value;
         }
     };
 
     const openAddDevDialog = () => {
-        uiStore.setSideBarPointerEvents('none')
+        uiStore.setSideBarPointerEvents("none");
         addDevDialogVisible.value = true;
     };
 
     const closeAddDevDialog = () => {
-        uiStore.setSideBarPointerEvents('auto')
+        uiStore.setSideBarPointerEvents("auto");
         addDevDialogVisible.value = false;
     };
 
     const openEditDevDialog = (dev) => {
-        uiStore.setSideBarPointerEvents('none')
+        uiStore.setSideBarPointerEvents("none");
         selectedDev.value = dev;
         editDevDialogVisible.value = true;
     };
 
     const closeEditDevDialog = () => {
-        uiStore.setSideBarPointerEvents('auto')
+        uiStore.setSideBarPointerEvents("auto");
         editDevDialogVisible.value = false;
     };
 
     const menu = [
         { name: "Dashboard", icon: "mdi:home-outline", page: "dashboard" },
         {
-            name: "Deviations", icon: "mage:robot-fill", submenu: [
-                { name: "Deviation List", icon: "ic:round-library-books", page: "deviation-list" },
-                { name: "Deviation Types", icon: "ic:round-category", page: "deviation-locations" },
-                { name: "Deviation Needs", icon: "ic:round-list-alt", page: "deviation-needs" },
-            ]
+            name: "Deviations",
+            icon: "mage:robot-fill",
+            submenu: [
+                {
+                    name: "Deviation List",
+                    icon: "ic:round-library-books",
+                    page: "deviation-list",
+                },
+                {
+                    name: "Deviation Types",
+                    icon: "ic:round-category",
+                    page: "deviation-locations",
+                },
+                {
+                    name: "Deviation Needs",
+                    icon: "ic:round-list-alt",
+                    page: "deviation-needs",
+                },
+            ],
         },
         {
-            name: "Scenarios", icon: "mdi:world", submenu: [
-                { name: "Scenario List", icon: "ic:round-list-alt", page: "scenario-list" },
-                { name: "Visional Wheels", icon: "solar:moon-linear", page: "visional-wheels" },
-            ]
+            name: "Scenarios",
+            icon: "mdi:world",
+            submenu: [
+                {
+                    name: "Scenario List",
+                    icon: "ic:round-list-alt",
+                    page: "scenario-list",
+                },
+                {
+                    name: "Visional Wheels",
+                    icon: "solar:moon-linear",
+                    page: "visional-wheels",
+                },
+            ],
         },
-        { name: "Silos", icon: "material-symbols:door-open-outline-sharp", page: "silos" }
+        {
+            name: "Silos",
+            icon: "material-symbols:door-open-outline-sharp",
+            page: "silos",
+        },
+    ];
 
+    const pages = [
+        {
+            name: "Deviations",
+            icon: "mage:robot-fill",
+            page: "deviation-list",
+        },
+        {
+            name: "Scenarios",
+            icon: "mdi:world",
+            page: "scenario-list",
+        },
+        {
+            name: "Silos",
+            icon: "material-symbols:door-open-outline-sharp",
+            page: "silos",
+        },
     ];
 
     return {
         //data
         menu,
+        pages,
 
         //state
         isMobileMenuOpen,
@@ -70,6 +116,6 @@ export function useUi() {
         openAddDevDialog,
         closeAddDevDialog,
         openEditDevDialog,
-        closeEditDevDialog
-    }
+        closeEditDevDialog,
+    };
 }

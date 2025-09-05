@@ -32,7 +32,7 @@ onMounted(() => {
 </script>
 
 <template>
-	<Sidebar />
+	<BackofficeSidebar />
 	<div class="pl-5 pr-5 py-10 md:pl-72 h-screen">
 		<div class="bg-none md:bg-[#05373E] h-full w-full rounded-3xl p-5">
 			<component v-if="isReady" data-aos="fade-left" :is="currentComponent" />
