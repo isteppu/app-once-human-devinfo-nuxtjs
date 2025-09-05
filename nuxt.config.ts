@@ -1,5 +1,10 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
+  watchers: {
+    chokidar :{
+      ignored: ['**/node_modules/**', '**/.git/**', '**/.nuxt/**']
+    }
+  },
   css: ['/main.css'],
   compatibilityDate: '2025-07-15',
   devtools: { enabled: true },
