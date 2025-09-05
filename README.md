@@ -17,7 +17,7 @@ More Info: [IGN Review]("https://www.ign.com/articles/once-human-review")
 
 <div align="center">
 
-![Nuxt JS](https://img.shields.io/badge/Nuxt-002E3B?style=for-the-badge&logo=nuxt.js&logoColor=#00DC82) 
+![Nuxt JS](https://img.shields.io/badge/Nuxt-002E3B?style=for-the-badge&logo=nuxt&logoColor=#00DC82) 
 ![Tailwind](https://img.shields.io/badge/-Tailwind-%230170FE?style=for-the-badge&logo=tailwindcss&logoColor=white) 
 ![DaisyUI](https://img.shields.io/badge/daisyui-5A0EF8?style=for-the-badge&logo=daisyui&logoColor=white) 
 ![Firebase](https://img.shields.io/badge/firebase-a08021?style=for-the-badge&logo=firebase&logoColor=ffcd34) 
