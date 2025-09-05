@@ -4,22 +4,22 @@ import { useUserStore } from "~/store/user";
 
 const userStore = useUserStore();
 const {
-  username,
-  password,
-  showPassword,
-  loading,
-  usernameError,
-  passwordError,
-  loginError,
-  alertVisible,
-  alertDetails,
-  validateForm,
+    username,
+    password,
+    showPassword,
+    loading,
+    usernameError,
+    passwordError,
+    loginError,
+    alertVisible,
+    alertDetails,
+    validateForm,
 } = useAuth();
 
 onMounted(() => {
-  if (userStore.isLoggedIn) {
-    navigateTo("/backoffice/admin");
-  }
+    if (userStore.isLoggedIn) {
+        navigateTo("/backoffice/admin");
+    }
 });
 
 </script>
@@ -31,7 +31,7 @@ onMounted(() => {
             <div class="flex flex-col justify-center items-center p-5 h-full gap-4">
                 <img class="rounded-full h-15 w-15 overflow-hidden ring-2 ring-cyan-500/50"
                     src="/assets/images/profiles/oh-logo.png" alt="OH Logo" />
-                <h1 class="text-md text-white font-semibold uppercase text-center">OH Portal Backoffice</h1>
+                <h1 class="text-md text-white font-semibold uppercase text-center">OH DevInfo Backoffice</h1>
                 <input name="username" type="text" class="input w-full focus-within:outline-none"
                     :class="usernameError ? 'border-red-500' : ''" v-model="username" placeholder="Enter username"
                     required />

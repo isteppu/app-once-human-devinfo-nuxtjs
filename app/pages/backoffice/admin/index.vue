@@ -1,6 +1,6 @@
 <script setup>
 useHead({
-    title: 'Admin - OH Portal Backoffice',
+    title: 'Admin - OH DevInfo Backoffice',
 })
 </script>
 
