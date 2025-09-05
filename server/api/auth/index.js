@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken';
 import { serialize } from 'cookie';
 
 const users = [
-  { username: "ohportal_admin", password: "00oncehuman00" }
+  { username: "ohdevinfo_admin", password: "00oncehuman00" }
 ];
 
 const JWT_SECRET = process.env.JWT_SECRET || 'ohnoohnoohnononono'; 

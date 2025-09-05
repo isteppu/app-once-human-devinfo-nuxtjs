@@ -1,8 +1,7 @@
 import { ref, computed } from "vue";
-import { useDataStore } from "~/store/user";
 
 export function useFetchData() {
-    const dataStore = useDataStore();
+    const searchQuery = ref('');
     const fetchAlertVisible = ref(false);
     const fetchAlertDetails = ref({
         title: "",
@@ -34,7 +33,23 @@ export function useFetchData() {
         key: 'dev-needs-fetch',
         server: true,
     });
+
     
+
+    const filteredDeviations = computed(() => {
+        if (!deviations.value || !deviations.value.result) {
+            return [];
+        }
+        const query = searchQuery.value.toLowerCase();
+        if (!query) {
+            return deviations.value.result;
+        }
+        return deviations.value.result.filter(deviation =>
+            deviation.name.toLowerCase().includes(query) ||
+            deviation.desc.toLowerCase().includes(query)
+        );
+    });
+
     const loading = computed(() => {
         return loadingDevs.value || loadingLocations.value || loadingScenarios.value || loadingDevTypes.value || loadingDevNeeds.value;
     });
@@ -42,7 +57,7 @@ export function useFetchData() {
 
     const error = computed(() => {
         if (devsError.value || locationsError.value || scenariosError.value || devTypesError.value || devNeedsError.value) {
-            alertDetails.value = {
+            fetchAlertDetails.value = {
                 title: "Loading Error",
                 desc: "Failed to load data. Please try to refresh the page.",
                 buttons: [
@@ -50,12 +65,12 @@ export function useFetchData() {
                         label: "OK",
                         class: "btn btn-primary",
                         func: () => {
-                            alertVisible.value = false;
+                            fetchAlertVisible.value = false;
                         },
                     },
                 ],
             };
-            alertVisible.value = true;
+            fetchAlertVisible.value = true;
             return true;
         }
         return false;
@@ -72,6 +87,8 @@ export function useFetchData() {
         error,
         fetchAlertDetails,
         fetchAlertVisible,
+        searchQuery,
+        filteredDeviations,
         // methods to refresh data
         refreshDevs,
         refreshLocations,

@@ -1,14 +1,9 @@
 <script setup>
-import { ref } from 'vue';
-
+useHead({
+    title: 'Once Human Deviation Info',
+})
 </script>
 
 <template>
-  <div>
-   Main/Home
-  </div>
+    <NuxtLayout name="main" />
 </template>
-
-<style scoped>
-
-</style>

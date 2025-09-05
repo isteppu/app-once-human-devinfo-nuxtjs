@@ -1,19 +1,24 @@
 <script setup>
-import { ref } from 'vue';
 
-const boxes = [
-    { title: "Total Deviations", value: 0, icon: "game-icons:butterfly", desc: "Number of registered deviations" },
-    { title: "Total Scenarios", value: 0, icon: "mdi:world", desc: "Number of registered scenarios" },
-    { title: "Total Silos", value: 0, icon: "material-symbols:door-open-outline-sharp", desc: "Number of registered silos" },
-]
+const {
+    filteredDeviations,
+    scenarios,
+} = useFetchData();
+
+const boxes = () => {
+        return [
+            { title: "Total Deviations", value: filteredDeviations?.value.length, icon: "game-icons:butterfly", desc: "Number of registered deviations" },
+            { title: "Total Scenarios", value: scenarios?.value.result.length, icon: "mdi:world", desc: "Number of registered scenarios" },
+            { title: "Total Silos", value: 0, icon: "material-symbols:door-open-outline-sharp", desc: "Number of registered silos" },
+        ]
+}
 </script>
 
 <template>
-    <div  class="w-full h-full relative">
+    <div class="w-full h-full relative">
         <div class="flex flex-wrap gap-4 w-full px-5">
-            <div class="stats shadow-md w-full bg-cyan-600/20">
-                <div v-for="(box, index) in boxes" :key="'dashboard-box' + index"
-                    class="stat">
+            <div v-if="filteredDeviations && scenarios" class="stats shadow-md w-full bg-cyan-600/20">
+                <div v-for="(box, index) in boxes()" :key="'dashboard-box' + index" class="stat">
                     <h1 class="stat-title">{{ box.title }}</h1>
                     <h1 class="stat-value">{{ box.value }}</h1>
                     <h1 class="stat-desc">{{ box.desc }}</h1>
