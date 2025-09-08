@@ -2,28 +2,28 @@
 import { ref, computed, onMounted } from 'vue'
 import { useUserStore } from '~/store/user'
 import Dashboard from './Dashboard.vue'
-import DeviationList from './DeviationList.vue'
-import DeviationNeeds from './DeviationNeeds.vue'
-import DeviationLocations from './DeviationLocations.vue'
-import ScenarioList from './ScenarioList.vue'
-import VisionalWheels from './VisionalWheels.vue'
-import Silos from './Silos.vue'
+import BackOfficeDeviationList from './BackOfficeDeviationList.vue'
+import BackOfficeDeviationNeeds from './BackOfficeDeviationNeeds.vue'
+import BackOfficeDeviationLocations from './BackOfficeDeviationLocations.vue'
+import BackOfficeScenarioList from './BackOfficeScenarioList.vue'
+import BackOfficeVisionalWheels from './BackOfficeVisionalWheels.vue'
+import BackOfficeSilos from './BackOfficeSilos.vue'
 
 const userStore = useUserStore()
 const isReady = ref(false)
 
 const pages = {
 	'dashboard': Dashboard,
-	'deviation-list': DeviationList,
-	'deviation-needs': DeviationNeeds,
-	'deviation-locations': DeviationLocations,
-	'scenario-list': ScenarioList,
-	'visional-wheels': VisionalWheels,
-	'silos': Silos,
+	'deviation-list': BackOfficeDeviationList,
+	'deviation-needs': BackOfficeDeviationNeeds,
+	'deviation-locations': BackOfficeDeviationLocations,
+	'scenario-list': BackOfficeScenarioList,
+	'visional-wheels': BackOfficeVisionalWheels,
+	'silos': BackOfficeSilos,
 }
 
 const currentComponent = computed(() => {
-	return pages[userStore.page] || pages['dashboard']
+	return pages[userStore.menu] || pages['dashboard']
 })
 
 onMounted(() => {

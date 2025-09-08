@@ -7,7 +7,7 @@ import { handleDatabaseOperation } from '../../utils/supabase-db-operations';
 export default defineEventHandler(async (event) => {
 	const method = event.node.req.method.toLowerCase();
 
-	const tableName = 'Scenario';
+	const tableName = 'Silos';
 	switch (method) {
 		case 'get':
 			return handleDatabaseOperation(tableName, 'get');
@@ -17,4 +17,5 @@ export default defineEventHandler(async (event) => {
 		default:
 			throw createError({ statusCode: 405, statusMessage: 'Method Not Allowed' });
 	}
+
 });
