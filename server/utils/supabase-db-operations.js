@@ -18,7 +18,7 @@ const supabase = createClient(supabaseUrl, supabaseKey);
  */
 export const handleDatabaseOperation = async (tableName, operation, id = null, data = null) => {
   try {
-    let query = supabase.from(tableName);
+    let query = supabase.from(tableName.toLowerCase());
     let result;
     let error;
 

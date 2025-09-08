@@ -23,7 +23,7 @@ const pages = {
 }
 
 const currentComponent = computed(() => {
-	return pages[userStore.page] || pages['dashboard']
+	return pages[userStore.menu] || pages['dashboard']
 })
 
 onMounted(() => {

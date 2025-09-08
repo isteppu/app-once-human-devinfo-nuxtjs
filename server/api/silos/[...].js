@@ -1,5 +1,5 @@
 import { defineEventHandler, createError, getRouterParams, readBody } from 'h3';
-import { handleDatabaseOperation } from '../../utils/supabase';
+import { handleDatabaseOperation } from '../../utils/supabase-db-operations';
 
 /**
  * Main event handler for the /api/deviations routes.
