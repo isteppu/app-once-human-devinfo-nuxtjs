@@ -27,13 +27,31 @@ const {
                             placeholder="Search by name or description..." v-model="searchQuery" />
                     </label>
                 </div>
-                <div class="w-full mt-5 overflow-y-scroll">
-                    <div class="bg-cyan-800/70 w-50 h-70 rounded-lg relative overflow-hidden flex flex-col items-center justify-center group">
-                        <div class="absolute bg-white -top-20 -left-5 w-60 h-60 rotate-45 rounded-full">
+                <div class="w-full mt-5 overflow-y-scroll p-5">
+                    <div
+                        class="bg-cyan-800/70 w-[15rem] h-[20rem] rounded-3xl relative overflow-hidden flex flex-col items-center justify-center group transition-all duration-500 hover:scale-105 shadow-sm shadow-cyan-200">
+
+                        <!-- The background shape that scales -->
+                        <div class="absolute bg-white w-[15rem] h-[15rem] rounded-full top-[-8rem] left-1/2 -translate-x-1/2 group-hover:scale-[3] transition-all duration-500">
                         </div>
-                        <div class="mask mask-circle h-20 w-20 bg-cyan-500">
-                            <!-- <img :src="`/assets/images/deviations/${deviation.id + 1}.jpg`"
-                                :alt="deviation.name + ' image'" /> -->
+
+                        <!-- The main icon or image container -->
+                        <div class="relative z-10 p-4">
+                            <div class="h-24 w-24 bg-cyan-500 rounded-full flex items-center justify-center transition-all duration-500 group-hover:scale-110">
+                                <span
+                                    class="text-white text-5xl group-hover:text-black transition-colors duration-500">✨</span>
+                            </div>
+                        </div>
+
+                        <!-- Placeholder for text content -->
+                        <div class="relative z-10 mt-4 p-4 text-center">
+                            <h1
+                                class="text-white text-3xl font-bold group-hover:text-black transition-colors duration-500">
+                                Example Card</h1>
+                            <p
+                                class="text-white text-sm opacity-80 mt-2 group-hover:text-black transition-colors duration-500">
+                                This div is a test of a hover effect with scaling and clipping.
+                            </p>
                         </div>
                     </div>
                 </div>
