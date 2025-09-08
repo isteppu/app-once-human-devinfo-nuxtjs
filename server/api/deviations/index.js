@@ -1,41 +1,21 @@
-import { defineEventHandler, createError, readBody } from 'h3';
-import { handleGet, handlePost } from '../../utils/database-operations';
+import { defineEventHandler, createError, getRouterParams, readBody } from 'h3';
+import { handleDatabaseOperation } from '../../utils/supabase-db-operations';
 
+/**
+ * Main event handler for the /api/deviations routes.
+ */
 export default defineEventHandler(async (event) => {
-    const method = event.node.req.method.toLowerCase();
+	const method = event.node.req.method.toLowerCase();
 
-    try {
-        let result;
+	const tableName = 'Deviations';
+	switch (method) {
+		case 'get':
+			return handleDatabaseOperation(tableName, 'get');
+		case 'post':
+			const postData = await readBody(event);
+			return handleDatabaseOperation(tableName, 'post', null, postData);
+		default:
+			throw createError({ statusCode: 405, statusMessage: 'Method Not Allowed' });
+	}
 
-        switch (method) {
-            case 'get':
-                result = await handleGet('Deviations');
-                break;
-            case 'post':
-                const postData = await readBody(event);
-                if (!postData.id) {
-                    throw createError({ statusCode: 400, statusMessage: 'Bad Request', data: { success: false, error: 'Missing ID for POST request.' } });
-                }
-                result = await handlePost(`Deviations/${postData.id}`, postData);
-                break;
-            default:
-                throw createError({ statusCode: 405, statusMessage: 'Method Not Allowed' });
-        }
-
-        return {
-            success: true,
-            result: result,
-            message: `${method.charAt(0).toUpperCase() + method.slice(1)} operation successful`,
-        };
-    } catch (error) {
-        if (error.statusCode) {
-            throw error;
-        }
-        console.error(`Error in event handler:`, error);
-        throw createError({
-            statusCode: 500,
-            statusMessage: 'Internal Server Error',
-            data: { success: false, error: `Failed to perform database operation: ${error.message}` },
-        });
-    }
 });

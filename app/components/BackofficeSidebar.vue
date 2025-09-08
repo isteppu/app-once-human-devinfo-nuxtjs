@@ -20,8 +20,8 @@ onMounted(() => {
         <div class="hidden md:flex flex-col w-70 h-screen fixed top-0 left-0 text-white transition-all duration-300">
             <div class="p-6">
                 <div class="w-full h-[120px] flex flex-col  items-center justify-center">
-                    <h1 class="text-md my-5 font-extrabold uppercase flex w-full tracking-widest">
-                        OH Portal Backoffice
+                    <h1 class="text-md my-5 font-bold uppercase flex w-full tracking-wide">
+                        OH DevInfo Backoffice
                     </h1>
                     <div class="flex w-full justify-between">
                         <div class="flex flex-row">
@@ -46,7 +46,7 @@ onMounted(() => {
                     <li v-for="(page, index) in menu" :key="'menu-list' + index">
                         <a 
                             href="#" class="flex items-center space-x-3 p-3 rounded-xl"
-                            @click="page.page ? userStore.setPage(page.page) : null"
+                            @click="page.page ? userStore.setMenu(page.page) : null"
                             :class="page.page ? ' hover:bg-gray-700 transition-colors duration-200' : ''">
                             <Icon :name="page.icon" class="text-2xl"></Icon>
                             <span>{{ page.name }}</span>
@@ -56,7 +56,7 @@ onMounted(() => {
                             <li v-for="(sub, index) in page.submenu" :key="'submenu-list' + index">
                                 <a 
                                     href="#" class="flex items-center space-x-3 p-3 rounded-xl"
-                                    @click="sub.page ? userStore.setPage(sub.page) : null"
+                                    @click="sub.page ? userStore.setMenu(sub.page) : null"
                                     :class="sub.page ? ' hover:bg-gray-700 transition-colors duration-200' : ''">
                                     <Icon class="text-gray-400" :name="sub.icon"></Icon>
                                     <span class="text-sm text-gray-400">{{ sub.name }}</span>
@@ -88,7 +88,7 @@ onMounted(() => {
                     <li v-for="(page, index) in menu" :key="'menu-list' + index">
                         <a 
                             href="#" class="flex items-center space-x-3 p-3 rounded-xl"
-                            @click="page.page ? userStore.setPage(page.page) : null"
+                            @click="page.page ? userStore.setMenu(page.page) : null"
                             :class="page.page ? ' hover:bg-gray-700 transition-colors duration-200' : ''">
                             <Icon :name="page.icon" class="text-2xl"></Icon>
                             <span>{{ page.name }}</span>
@@ -98,7 +98,7 @@ onMounted(() => {
                             <li v-for="(sub, index) in page.submenu" :key="'submenu-list' + index">
                                 <a 
                                     href="#" class="flex items-center space-x-3 p-3 rounded-xl"
-                                    @click="sub.page ? userStore.setPage(sub.page) : null"
+                                    @click="sub.page ? userStore.setMenu(sub.page) : null"
                                     :class="sub.page ? ' hover:bg-gray-700 transition-colors duration-200' : ''">
                                     <Icon class="text-gray-400" :name="sub.icon"></Icon>
                                     <span class="text-sm text-gray-400">{{ sub.name }}</span>
