@@ -140,7 +140,7 @@ const updateData = async () => {
         location: location.value,
         name: devName.value,
         needs: devNeedsChecked.value.length > 0 ? devNeedsChecked.value : "none",
-        type: devType.value || "none",
+        type: devType.value,
         variants: "none",
         note: devNotes.value || "none",
         id: devID.value,

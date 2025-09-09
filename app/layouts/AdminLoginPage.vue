@@ -42,7 +42,7 @@ onMounted(() => {
                         placeholder="Enter password" />
                     <button class="hover:cursor-pointer" @click="showPassword = !showPassword"
                         :type="showPassword ? 'text' : 'password'">
-                        <Icon :name="showPassword ? 'mdi-light:eye-off' : 'mdi-light:eye'" class="grow"></Icon>
+                        <Icon :name="showPassword ? 'mdi-light:eye-off' : 'mdi-light:eye'" class="grow text-2xl"></Icon>
                     </button>
                 </label>
                 <p v-if="passwordError" class="-mt-3 text-xs text-left text-red-600 w-full">{{ passwordError }}</p>

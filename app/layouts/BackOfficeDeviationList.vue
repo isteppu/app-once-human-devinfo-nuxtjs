@@ -34,7 +34,7 @@ const { deleteAlertDetails, deleteAlertVisible, deleteData } = useDeleteData();
             <h1 class="text-md font-thin mt-2">
                 Add, update, delete registered deviation.
             </h1>
-            <div class="mt-5 w-full bg-gray-300 rounded-md p-5 max-h-[650px] h-full">
+            <div class="mt-5 w-full bg-neutral-900/30 rounded-md p-5 max-h-[650px] h-full overflow-hidden pb-20">
                 <div class="flex flex-col md:flex-row justify-end gap-3 w-full">
                     <label class="input !outline-none bg-white">
                         <Icon name="ic:round-search" class="text-2xl text-gray-500/50" />
@@ -47,10 +47,10 @@ const { deleteAlertDetails, deleteAlertVisible, deleteData } = useDeleteData();
                         Add Deviation
                     </button>
                 </div>
-                <div class="w-full mt-5 overflow-y-scroll border-1 border-cyan-900/80 rounded-md">
-                    <table class="table">
+                <div class="w-full mt-5 h-full overflow-y-scroll border-1 border-cyan-900/80 rounded-md">
+                    <table class="table table-pin-rows">
                         <thead class="text-white border-b-1 border-cyan-900/30 bg-cyan-800/90">
-                            <tr>
+                            <tr class="!bg-white/0">
                                 <th>#</th>
                                 <th>ID</th>
                                 <th>Name</th>
@@ -61,9 +61,9 @@ const { deleteAlertDetails, deleteAlertVisible, deleteData } = useDeleteData();
                         </thead>
                         <TransitionGroup name="fade" tag="tbody">
                             <tr v-for="(deviation, index) in filteredDeviations" :key="deviation.id"
-                                class="bg-white border-b-1 border-cyan-900/30">
-                                <td class="text-xs text-cyan-800">{{ index + 1 }}</td>
-                                <td class="text-md text-cyan-800 font-extrabold">
+                                class="bg-cyan-100/10 border-b-1 border-cyan-900/30">
+                                <td class="text-xs text-white">{{ index + 1 }}</td>
+                                <td class="text-md text-white font-extrabold">
                                     00{{ deviation.id }}
                                 </td>
                                 <td>
@@ -75,14 +75,14 @@ const { deleteAlertDetails, deleteAlertVisible, deleteData } = useDeleteData();
                                             </div>
                                         </div>
                                         <div>
-                                            <div class="font-bold text-cyan-800">
+                                            <div class="font-bold text-gray-100">
                                                 {{ deviation.name }}
                                             </div>
-                                            <div class="text-sm opacity-50 text-cyan-800">
+                                            <div class="text-sm opacity-50 text-gray-300">
                                                 {{
-                                                    deviation.type === 0
+                                                    deviation.type === '0'
                                                         ? "Territorry"
-                                                        : deviation.type === 1
+                                                        : deviation.type === '1'
                                                             ? "Crafting"
                                                             : "Combat"
                                                 }}
@@ -90,7 +90,7 @@ const { deleteAlertDetails, deleteAlertVisible, deleteData } = useDeleteData();
                                         </div>
                                     </div>
                                 </td>
-                                <td class="text-cyan-800">{{ deviation.desc }}</td>
+                                <td class="text-gray-100">{{ deviation.desc }}</td>
                                 <td>
                                     <button class="btn btn-sm bg-cyan-900 text-white uppercase font-extrabold"
                                         @click="openEditDevDialog(deviation)">
@@ -118,9 +118,9 @@ const { deleteAlertDetails, deleteAlertVisible, deleteData } = useDeleteData();
                             </tr>
                         </tbody>
                         <tbody v-if="loading">
-                            <tr class="bg-white">
+                            <tr class="bg-cyan-600/10">
                                 <td colspan="6" class="text-center">
-                                    <span class="loading loading-ring loading-lg text-cyan-900"></span>
+                                    <span class="loading loading-ring loading-lg text-cyan-100"></span>
                                 </td>
                             </tr>
                         </tbody>
