@@ -11,7 +11,7 @@ This system is a lightweight information portal dedicated to cataloging and pres
 By focusing on clarity and accessibility, the system helps both new and experienced Once Human players easily understand and track deviations, complementing official resources and community guides.
 
 Game Link: [Once Human Official Site](https://www.oncehuman.game/) \
-More Info: [IGN Review]("https://www.ign.com/articles/once-human-review")
+More Info: [IGN Review](https://www.ign.com/articles/once-human-review)
 
 # 💻 Tech Used
 
