@@ -3,6 +3,7 @@ import { useUIStore } from "~/store/user";
 
 const addDevDialogVisible = ref(false);
 const editDevDialogVisible = ref(false);
+const deviationSettingsVisible = ref(false);
 const selectedDev = ref(null);
 
 export function useUi() {
@@ -13,6 +14,16 @@ export function useUi() {
         if (uiStore.sideBarPointerEvents === "auto") {
             isMobileMenuOpen.value = !isMobileMenuOpen.value;
         }
+    };
+
+    const openDeviationSettings = () => {
+        uiStore.setSideBarPointerEvents("none");
+        deviationSettingsVisible.value = true;
+    };
+
+    const closeDeviationSettings = () => {
+        uiStore.setSideBarPointerEvents("auto");
+        deviationSettingsVisible.value = false;
     };
 
     const openAddDevDialog = () => {
@@ -107,12 +118,15 @@ export function useUi() {
 
         //state
         isMobileMenuOpen,
+        deviationSettingsVisible,
         addDevDialogVisible,
         editDevDialogVisible,
         selectedDev,
 
         //methods
         toggleMenu,
+        openDeviationSettings,
+        closeDeviationSettings,
         openAddDevDialog,
         closeAddDevDialog,
         openEditDevDialog,

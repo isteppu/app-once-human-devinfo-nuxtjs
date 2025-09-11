@@ -6,6 +6,7 @@ import { handleDatabaseOperation } from '../../utils/supabase-db-operations';
  */
 export default defineEventHandler(async (event) => {
 	const method = event.node.req.method.toLowerCase();
+	const jwtToken = getCookie(event, 'auth_token');
 
 	const tableName = 'Silos';
 	switch (method) {
@@ -13,7 +14,7 @@ export default defineEventHandler(async (event) => {
 			return handleDatabaseOperation(tableName, 'get');
 		case 'post':
 			const postData = await readBody(event);
-			return handleDatabaseOperation(tableName, 'post', null, postData);
+			return handleDatabaseOperation(tableName, 'post', null, postData, jwtToken);
 		default:
 			throw createError({ statusCode: 405, statusMessage: 'Method Not Allowed' });
 	}

@@ -121,7 +121,7 @@ const getAvailableIds = (deviations) => {
 </script>
 
 <template>
-	<div class="!w-full h-full absolute top-0 left-0 flex justify-center items-center p-5 backdrop-blur-sm">
+	<div class="!w-full h-full absolute top-0 left-0 flex justify-center items-center p-5 backdrop-blur-sm z-40">
 		<div data-aos="fade-up"
 			class="bg-gray-200 bs-neon rounded-lg p-10 max-w-xlg text-white transition-transform duration-300 ease-in-out scale-100 border-1 border-white">
 

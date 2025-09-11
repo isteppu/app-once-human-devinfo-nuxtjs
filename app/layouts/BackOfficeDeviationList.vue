@@ -3,25 +3,25 @@ import { useUIStore } from '~/store/user';
 
 const uiStore = useUIStore();
 const {
-	deviations,
-	locations,
-	scenarios,
-	devTypes,
-	devNeeds,
-	fetchAlertDetails,
-	fetchAlertVisible,
-	loading,
-	searchQuery,
-	filteredDeviations,
-	refreshDevs
+    deviations,
+    locations,
+    scenarios,
+    devTypes,
+    devNeeds,
+    fetchAlertDetails,
+    fetchAlertVisible,
+    loading,
+    searchQuery,
+    filteredDeviations,
+    refreshDevs
 } = useFetchData();
 
 const {
-	alertDetails,
-	alertVisible
+    alertDetails,
+    alertVisible
 } = usePostData();
 
-const { addDevDialogVisible, openAddDevDialog, editDevDialogVisible, openEditDevDialog, selectedDev } = useUi();
+const { deviationSettingsVisible, openDeviationSettings, closeDeviationSettings, addDevDialogVisible, openAddDevDialog, editDevDialogVisible, openEditDevDialog, selectedDev } = useUi();
 
 const { deleteAlertDetails, deleteAlertVisible, deleteData } = useDeleteData();
 
@@ -46,11 +46,16 @@ const { deleteAlertDetails, deleteAlertVisible, deleteData } = useDeleteData();
                         @click="openAddDevDialog">
                         Add Deviation
                     </button>
+                    <button
+                        class="bg-blue-900 px-4 py-1 rounded-xs text-md shadow-md hover:bg-neutral-900 hover:cursor-pointer"
+                        @click="openDeviationSettings">
+                        <Icon name="mdi:settings" class=" text-gray-100" />
+                    </button>
                 </div>
                 <div class="w-full mt-5 h-full overflow-y-scroll border-1 border-cyan-900/80 rounded-md">
                     <table class="table table-pin-rows">
                         <thead class="text-white border-b-1 border-cyan-900/30 bg-cyan-800/90">
-                            <tr class="!bg-white/0">
+                            <tr class="!bg-cyan-800/90 !z-[5]">
                                 <th>#</th>
                                 <th>ID</th>
                                 <th>Name</th>
@@ -92,9 +97,9 @@ const { deleteAlertDetails, deleteAlertVisible, deleteData } = useDeleteData();
                                 </td>
                                 <td class="text-gray-100">{{ deviation.desc }}</td>
                                 <td>
-                                    <button class="btn btn-sm bg-cyan-900 text-white uppercase font-extrabold"
+                                    <button class="btn btn-sm bg-cyan-900 text-white uppercase text-xs"
                                         @click="openEditDevDialog(deviation)">
-                                        Edit info
+                                        Edit
                                     </button>
                                 </td>
                                 <td>
@@ -131,9 +136,11 @@ const { deleteAlertDetails, deleteAlertVisible, deleteData } = useDeleteData();
         <AddDeviationDialog v-if="locations && scenarios && addDevDialogVisible" :locations="locations.result"
             :scenarios="scenarios.result" :devTypes="devTypes.result" :devNeeds="devNeeds.result"
             :deviations="deviations.result" />
-        <EditDeviationDialog v-if="locations && scenarios && selectedDev && editDevDialogVisible" :locations="locations.result"
-            :scenarios="scenarios.result" :devTypes="devTypes.result" :devNeeds="devNeeds.result"
-            :deviations="deviations.result" :devInfo="selectedDev" />
+        <EditDeviationDialog v-if="locations && scenarios && selectedDev && editDevDialogVisible"
+            :locations="locations.result" :scenarios="scenarios.result" :devTypes="devTypes.result"
+            :devNeeds="devNeeds.result" :deviations="deviations.result" :devInfo="selectedDev" />
+        <DeviationListSettings v-if="locations && scenarios && deviationSettingsVisible" :locations="locations.result" :scenarios="scenarios.result"
+            :devTypes="devTypes.result" />
         <AlertDialog v-if="alertVisible" :title="alertDetails.title" :desc="alertDetails.desc"
             :buttons="alertDetails.buttons" />
         <AlertDialog v-if="fetchAlertVisible" :title="fetchAlertDetails.title" :desc="fetchAlertDetails.desc"

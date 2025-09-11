@@ -8,6 +8,7 @@ export default defineEventHandler(async (event) => {
 	const method = event.node.req.method.toLowerCase();
 	const params = getRouterParams(event);
 	const path = params.path.split('/');
+	const jwtToken = getCookie(event, 'auth_token');
 
 	if (path[0] === 'droptype') {
 		const id = path[1] === 'id' ? path[2] : null;
@@ -18,10 +19,10 @@ export default defineEventHandler(async (event) => {
 				return handleDatabaseOperation(tableName, 'get', id);
 			case 'post':
 				const postData = await readBody(event);
-				return handleDatabaseOperation(tableName, 'post', null, postData);
+				return handleDatabaseOperation(tableName, 'post', null, postData, jwtToken);
 			case 'put':
 				const putData = await readBody(event);
-				return handleDatabaseOperation(tableName, 'put', id, putData);
+				return handleDatabaseOperation(tableName, 'put', id, putData, jwtToken);
 			case 'delete':
 				return handleDatabaseOperation(tableName, 'delete', id);
 			default:
@@ -38,7 +39,7 @@ export default defineEventHandler(async (event) => {
 				return handleDatabaseOperation(tableName, 'delete', id);
 			case 'put':
 				const putData = await readBody(event);
-				return handleDatabaseOperation(tableName, 'put', id, putData);
+				return handleDatabaseOperation(tableName, 'put', id, putData, jwtToken);
 			default:
 				throw createError({ statusCode: 405, statusMessage: 'Method Not Allowed' });
 		}
@@ -49,7 +50,7 @@ export default defineEventHandler(async (event) => {
 				return handleDatabaseOperation(tableName, 'get');
 			case 'post':
 				const postData = await readBody(event);
-				return handleDatabaseOperation(tableName, 'post', null, postData);
+				return handleDatabaseOperation(tableName, 'post', null, postData, jwtToken);
 			default:
 				throw createError({ statusCode: 405, statusMessage: 'Method Not Allowed' });
 		}
