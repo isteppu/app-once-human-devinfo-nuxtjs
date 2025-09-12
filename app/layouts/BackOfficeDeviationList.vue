@@ -140,7 +140,7 @@ const { deleteAlertDetails, deleteAlertVisible, deleteData } = useDeleteData();
             :locations="locations.result" :scenarios="scenarios.result" :devTypes="devTypes.result"
             :devNeeds="devNeeds.result" :deviations="deviations.result" :devInfo="selectedDev" />
         <DeviationListSettings v-if="locations && scenarios && deviationSettingsVisible" :locations="locations.result" :scenarios="scenarios.result"
-            :devTypes="devTypes.result" />
+            :devTypes="devTypes.result" :devNeeds="devNeeds.result" />
         <AlertDialog v-if="alertVisible" :title="alertDetails.title" :desc="alertDetails.desc"
             :buttons="alertDetails.buttons" />
         <AlertDialog v-if="fetchAlertVisible" :title="fetchAlertDetails.title" :desc="fetchAlertDetails.desc"

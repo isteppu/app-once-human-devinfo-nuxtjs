@@ -40,7 +40,7 @@ export function useFetchData() {
         if (!deviations.value || !deviations.value.result) {
             return [];
         }
-        const query = searchQuery.value.toLowerCase();
+        const query = searchQuery.value.toString().toLowerCase();
         if (!query) {
             return deviations.value.result;
         }
