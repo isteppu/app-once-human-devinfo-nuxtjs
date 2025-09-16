@@ -119,13 +119,16 @@ const getAvailableIds = (data, max) => {
                                 <button class="btn btn-sm bg-purple-900 text-white">
                                     <Icon name="mdi:edit" class="text-sm text-white" />
                                 </button>
+                                <button class="btn btn-sm bg-red-900 text-white">
+                                    <Icon name="mdi:delete" class="text-sm text-white" />
+                                </button>
                             </li>
                             <li class="flex flex-row gap-2">
                                 <select class="select w-20 bg-white !outline-none text-cyan-800" v-model="typeId">
                                     <option disabled selected value="">ID</option>
                                     <option v-for="(id, index) in getAvailableIds(devTypes, 3)"
                                         :key="'type-id-option-' + index" :value="id">
-                                        {{ id }}
+                                        00{{ id }}
                                     </option>
                                 </select>
                                 <input type="text" v-model="typeName" class="input bg-white" placeholder="Type Name">
@@ -137,12 +140,14 @@ const getAvailableIds = (data, max) => {
                         <ul v-if="devTypes.length > 0" class="flex flex-col gap-2 text-cyan-800 mb-5">
                             <h1 class="text-cyan-800 font-semibold mb-2">Deviation Locations</h1>
                             <li v-for="(loc, index) in locations" :key="'loc' + index" class="flex flex-row gap-2">
-                                <input type="text" :value="'00' + loc.id" class="input input-sm bg-cyan-900/10 w-20">
+                                <input type="text" :value="'00' + loc.id" class="input input-sm bg-cyan-900/10 w-15">
                                 <input type="text" :value="loc.key"
                                     class="input input-sm bg-cyan-900/10 w-12 uppercase">
                                 <input type="text" :value="loc.name" class="input input-sm bg-cyan-900/10">
                                 <button class="btn btn-sm bg-purple-900 text-white">
                                     <Icon name="mdi:edit" class="text-sm text-white" />
+                                </button><button class="btn btn-sm bg-red-900 text-white">
+                                    <Icon name="mdi:delete" class="text-sm text-white" />
                                 </button>
                             </li>
                             <li class="flex flex-row gap-2">
@@ -150,7 +155,7 @@ const getAvailableIds = (data, max) => {
                                     <option disabled selected value="">ID</option>
                                     <option v-for="(id, index) in getAvailableIds(locations, 5)"
                                         :key="'loc-id-option-' + index" :value="id">
-                                        {{ id }}
+                                        00{{ id }}
                                     </option>
                                 </select>
                                 <input type="text" v-model="locKey" class="input bg-white w-13" placeholder="Key">
@@ -162,7 +167,10 @@ const getAvailableIds = (data, max) => {
                         </ul>
                     </div>
                     <ul v-if="devTypes.length > 0" class="flex flex-col gap-2 text-cyan-800">
-                        <h1 class="text-cyan-800 font-semibold mb-2">Deviation Needs</h1>
+                        <h1 class="text-cyan-800 font-semibold">Deviation Needs</h1>
+                        <h1 class="text-cyan-800 font-thin text-xs mb-2">For list of icons that can be used, please
+                            visit <a href="https://icon-sets.iconify.design/noto/?keyword=noto" class="underline"
+                                target="_blank">Noto Emoji in Iconify </a></h1>
                         <li v-for="(need, index) in devNeeds" :key="'dev' + index" class="flex flex-row gap-2">
                             <input type="text" :value="'00' + need.id" class="input input-sm bg-cyan-900/10 w-20">
                             <input type="text" :value="need.need" class="input input-sm bg-cyan-900/10">
@@ -170,13 +178,16 @@ const getAvailableIds = (data, max) => {
                             <button class="btn btn-sm bg-purple-900 text-white">
                                 <Icon name="mdi:edit" class="text-sm text-white" />
                             </button>
+                            <button class="btn btn-sm bg-red-900 text-white">
+                                <Icon name="mdi:delete" class="text-sm text-white" />
+                            </button>
                         </li>
                         <li class="flex flex-row gap-2">
                             <select class="select w-20 bg-white !outline-none text-cyan-800" v-model="needID">
                                 <option disabled selected value="">ID</option>
                                 <option v-for="(id, index) in getAvailableIds(devNeeds, 9)"
                                     :key="'need-id-option-' + index" :value="id">
-                                    {{ id }}
+                                    00{{ id }}
                                 </option>
                             </select>
                             <input type="text" v-model="needName" class="input bg-white" placeholder="Type Name">
@@ -185,6 +196,7 @@ const getAvailableIds = (data, max) => {
                             <button class="btn bg-cyan-800 text-white">
                                 Add
                             </button>
+
                         </li>
                     </ul>
                 </div>

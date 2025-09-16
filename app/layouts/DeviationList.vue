@@ -8,8 +8,18 @@ const {
     loading,
     searchQuery,
     filteredDeviations,
-    devNeeds
+    devNeeds,
+    devTypes,
+    deviations,
+    locations,
+    scenarios
 } = useFetchData();
+
+const {
+    openDeviationDetails,
+    deviationDetailsVisible,
+    selectedDevDetails
+} = useUi();
 
 </script>
 
@@ -29,17 +39,18 @@ const {
                     <div
                         v-for="(deviation, index) in filteredDeviations" :key="'deviation-card-' + index"
                         class=" w-[15rem] h-[22rem] rounded-md relative overflow-hidden flex flex-col items-center justify-start pt-10 group transition-all duration-500 hover:scale-105 hover:pt-2"
-                        :class="deviation.type === '0' ? 'bg-[#88BEBA]' : deviation.type === '1' ? 'bg-[#4E6894]' : 'bg-[#B57B8C]'"
+                        :class="deviation.type === '0' ? 'bg-[#4B615D]' : deviation.type === '1' ? 'bg-[#333569]' : 'bg-[#693333]'"
+                        @click="openDeviationDetails(deviation)"
                         >
 
-                        <div class="absolute bg-blue-900/30 w-[15rem] h-[15rem] rounded-full top-[-8rem] left-1/2 -translate-x-1/2 group-hover:scale-[3] transition-all duration-500"></div>
+                        <div class="absolute bg-gray-900/80 w-[15rem] h-[15rem] rounded-full top-[-8rem] left-1/2 -translate-x-1/2 group-hover:scale-[3] transition-all duration-500"></div>
 
                         <div class="relative z-10 p-2">
                             <div 
                             class="h-30 w-30 bg-neutral-600 rounded-full flex items-center justify-center transform transition-all duration-500 group-hover:scale-110 group-hover:p-1"
-                            :class="deviation.type === '0' ? 'group-hover:bg-[#88BEBA] group-hover:shadow-2xl shadow-[#88BEBA]' 
-                                : deviation.type === '1' ? 'group-hover:bg-[#4E6894] group-hover:shadow-2xl shadow-[#4E6894]' 
-                                : 'group-hover:bg-[#B57B8C] group-hover:shadow-2xl shadow-[#B57B8C]'"
+                            :class="deviation.type === '0' ? 'group-hover:bg-[#4B615D] group-hover:shadow-2xl shadow-[#4B615D]' 
+                                : deviation.type === '1' ? 'group-hover:bg-[#333569] group-hover:shadow-2xl shadow-[#333569]' 
+                                : 'group-hover:bg-[#693333] group-hover:shadow-2xl shadow-[#693333]'"
                             >
                                 <img :src="`/assets/images/deviations/${deviation.id + 1}.jpg`" class="w-full h-full"/>
                             </div>
@@ -60,7 +71,7 @@ const {
                             <ul 
                                 v-if="devNeeds" 
                                 class="opacity-0 group-hover:opacity-100 text-white transition-all duration-500 ease-in-out rounded-md px-4 py-2"
-                                :class="deviation.type === '0' ? 'group-hover:bg-[#88BEBA]/60' : deviation.type === '1' ? 'group-hover:bg-[#4E6894]/60' : 'group-hover:bg-[#B57B8C]/60'"
+                                :class="deviation.type === '0' ? 'group-hover:bg-[#4B615D]/60' : deviation.type === '1' ? 'group-hover:bg-[#333569]/60' : 'group-hover:bg-[#693333]/60'"
                             >
                                 <li class="font-semibold">Needs: </li>
                                 <li v-for="(need, nIndex) in deviation.needs" :key="'dev-need-' + nIndex" class="text-xs flex flex-row items-center gap-2 mt-1">
@@ -77,6 +88,9 @@ const {
             </div>
         </div>
         <AlertDialog v-if="fetchAlertVisible" :title="fetchAlertDetails.title" :desc="fetchAlertDetails.desc" :buttons="fetchAlertDetails.buttons" />
+        <DeviationDetails v-if="locations && scenarios && selectedDevDetails && deviationDetailsVisible"
+            :locations="locations.result" :scenarios="scenarios.result" :devTypes="devTypes.result"
+            :devNeeds="devNeeds.result" :deviations="deviations.result" :devInfo="selectedDevDetails" />
     </div>
 </template>
 

@@ -133,10 +133,10 @@ const { deleteAlertDetails, deleteAlertVisible, deleteData } = useDeleteData();
                 </div>
             </div>
         </div>
-        <AddDeviationDialog v-if="locations && scenarios && addDevDialogVisible" :locations="locations.result"
+        <DeviationDialogAdd v-if="locations && scenarios && addDevDialogVisible" :locations="locations.result"
             :scenarios="scenarios.result" :devTypes="devTypes.result" :devNeeds="devNeeds.result"
             :deviations="deviations.result" />
-        <EditDeviationDialog v-if="locations && scenarios && selectedDev && editDevDialogVisible"
+        <DeviationDialogEdit v-if="locations && scenarios && selectedDev && editDevDialogVisible"
             :locations="locations.result" :scenarios="scenarios.result" :devTypes="devTypes.result"
             :devNeeds="devNeeds.result" :deviations="deviations.result" :devInfo="selectedDev" />
         <DeviationListSettings v-if="locations && scenarios && deviationSettingsVisible" :locations="locations.result" :scenarios="scenarios.result"
