@@ -1,50 +1,67 @@
 import { createClient } from '@supabase/supabase-js';
 import { createError } from 'h3';
 
-// Initialize Supabase client
+// Initialize a public Supabase client for read-only access.
 const supabaseUrl = process.env.SUPABASE_URL;
-const supabaseKey = process.env.SUPABASE_ANON_KEY;
+const supabaseAnonKey = process.env.SUPABASE_ANON_KEY;
 
 // Check if environment variables are set
-if (!supabaseUrl || !supabaseKey) {
+if (!supabaseUrl || !supabaseAnonKey) {
   throw new Error('Supabase URL and Key are not configured.');
 }
 
-const supabase = createClient(supabaseUrl, supabaseKey);
+const supabasePublic = createClient(supabaseUrl, supabaseAnonKey);
+
+// This helper function now takes the JWT token directly.
+function getSupabaseClient(operation, jwtToken) {
+  if (operation === 'get') {
+    return supabasePublic;
+  } else {
+    // For write operations, use an authenticated client
+    if (!jwtToken) {
+      throw createError({ statusCode: 401, statusMessage: 'Unauthorized' });
+    }
+
+    return createClient(supabaseUrl, supabaseAnonKey, {
+      global: {
+        headers: {
+          Authorization: `Bearer ${jwtToken}`,
+        },
+      },
+    });
+  }
+}
 
 /**
- * Generic handler for database operations to reduce code duplication.
- * This now uses Supabase's table-based querying instead of Firebase's path-based references.
+ * Generic handler for database operations.
+ * It now accepts the jwtToken and data as parameters.
  */
-export const handleDatabaseOperation = async (tableName, operation, id = null, data = null) => {
+export const handleDatabaseOperation = async (tableName, operation, id = null, data = null, jwtToken = null) => {
+  const supabaseClient = jwtToken ? getSupabaseClient(operation, jwtToken) : supabasePublic;
+
   try {
-    let query = supabase.from(tableName.toLowerCase());
+    let query = supabaseClient.from(tableName.toLowerCase());
     let result;
     let error;
 
     switch (operation) {
       case 'get':
         if (id) {
-          // Select a single item by its ID
           query = query.select().eq('id', id);
         } else {
-          // Select all items from the table
           query = query.select();
         }
         ({ data: result, error } = await query);
         break;
       case 'post':
-        // Insert a new item into the table
         ({ data: result, error } = await query.insert(data).select());
         break;
       case 'put':
-        // Update an item by its ID
         ({ data: result, error } = await query.update(data).eq('id', id).select());
         break;
       case 'delete':
-        // Delete an item by its ID
         ({ error } = await query.delete().eq('id', id));
-        result = null; // No data returned on delete
+        result = null;
         break;
       default:
         throw createError({
@@ -58,18 +75,18 @@ export const handleDatabaseOperation = async (tableName, operation, id = null, d
     }
 
     if (error) {
-      console.error(`Supabase error during operation (${operation}):`, error);
+      console.error(`Supabase error (${operation}):`, error);
       throw createError({
         statusCode: 500,
         statusMessage: 'Internal Server Error',
         data: {
           success: false,
-          error: `Failed to perform database operation: ${error.message}`
+          error: `Failed to perform operation: ${error.message}`
         },
       });
     }
 
-    if (!result && operation === 'get') {
+    if (!result && operation === 'get' && id) {
       throw createError({
         statusCode: 404,
         statusMessage: 'Not Found',
@@ -90,13 +107,13 @@ export const handleDatabaseOperation = async (tableName, operation, id = null, d
     if (error.statusCode) {
       throw error;
     }
-    console.error(`Error during database operation (${operation}):`, error);
+    console.error(`Error during operation (${operation}):`, error);
     throw createError({
       statusCode: 500,
       statusMessage: 'Internal Server Error',
       data: {
         success: false,
-        error: `Failed to perform database operation: ${error.message}`
+        error: `Failed to perform operation: ${error.message}`
       },
     });
   }

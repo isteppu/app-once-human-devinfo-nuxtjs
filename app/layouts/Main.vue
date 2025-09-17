@@ -24,8 +24,8 @@ onMounted(() => {
 </script>
 
 <template>
-	<div class="bg-[#0B1820] h-screen w-full">
-		<MainSidebar />
+	<div class="bg-[linear-gradient(to_right,rgba(17,24,39,0.6),rgba(17,24,39,0.8)),url(/assets/images/once_human_bg_2.png)] h-screen w-full">
+		<SidebarMain />
 		<div class="pl-5 pr-5 py-10 md:pl-25 h-screen">
 			<component v-if="isReady" data-aos="fade-left" :is="currentComponent" />
 		</div>

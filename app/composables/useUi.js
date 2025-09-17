@@ -3,7 +3,10 @@ import { useUIStore } from "~/store/user";
 
 const addDevDialogVisible = ref(false);
 const editDevDialogVisible = ref(false);
+const deviationSettingsVisible = ref(false);
+const deviationDetailsVisible = ref(false);
 const selectedDev = ref(null);
+const selectedDevDetails = ref(null);
 
 export function useUi() {
     const isMobileMenuOpen = ref(false);
@@ -13,6 +16,28 @@ export function useUi() {
         if (uiStore.sideBarPointerEvents === "auto") {
             isMobileMenuOpen.value = !isMobileMenuOpen.value;
         }
+    };
+
+    const openDeviationSettings = () => {
+        uiStore.setSideBarPointerEvents("none");
+        deviationSettingsVisible.value = true;
+    };
+
+    const openDeviationDetails = (dev) => {
+        uiStore.setSideBarPointerEvents("none");
+        deviationDetailsVisible.value = true;
+        selectedDevDetails.value = dev;
+    };
+
+    const closeDeviationSettings = () => {
+        uiStore.setSideBarPointerEvents("auto");
+        deviationSettingsVisible.value = false;
+        selectedDevDetails.value = null;
+    };
+
+    const closeDeviationDetails = () => {
+        uiStore.setSideBarPointerEvents("auto");
+        deviationDetailsVisible.value = false;
     };
 
     const openAddDevDialog = () => {
@@ -34,6 +59,7 @@ export function useUi() {
     const closeEditDevDialog = () => {
         uiStore.setSideBarPointerEvents("auto");
         editDevDialogVisible.value = false;
+        selectedDev.value = null;
     };
 
     const menu = [
@@ -107,12 +133,19 @@ export function useUi() {
 
         //state
         isMobileMenuOpen,
+        deviationSettingsVisible,
         addDevDialogVisible,
         editDevDialogVisible,
         selectedDev,
+        selectedDevDetails,
+        deviationDetailsVisible,
 
         //methods
         toggleMenu,
+        openDeviationDetails,
+        closeDeviationDetails,
+        openDeviationSettings,
+        closeDeviationSettings,
         openAddDevDialog,
         closeAddDevDialog,
         openEditDevDialog,
