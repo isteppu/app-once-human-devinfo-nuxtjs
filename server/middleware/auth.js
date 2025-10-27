@@ -20,7 +20,7 @@ export default defineEventHandler(async (event) => {
 
     const incomingApiKey = getHeader(event, 'x-api-key') || getQuery(event).apiKey;
     const cookies = parse(getHeader(event, 'cookie') || '');
-    const authToken = cookies.auth_token;
+    const authToken = cookies.auth_system_token;
 
     let isTokenValid = false;
     if (authToken) {

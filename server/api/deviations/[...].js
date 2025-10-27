@@ -8,6 +8,8 @@ export default defineEventHandler(async (event) => {
 	const method = event.node.req.method.toLowerCase();
 	const params = getRouterParams(event);
 	const path = (params.path || params._)?.split('/') || [];
+	const jwtToken = getCookie(event, 'auth_token');
+	console.log("📃 Deviation path: ", path)
 
 	if (path[0] === 'needs') {
 		const id = path[1] === 'id' ? path[2] : null;
@@ -18,10 +20,10 @@ export default defineEventHandler(async (event) => {
 				return handleDatabaseOperation(tableName, 'get', id);
 			case 'post':
 				const postData = await readBody(event);
-				return handleDatabaseOperation(tableName, 'post', null, postData);
+				return handleDatabaseOperation(tableName, 'post', null, postData, jwtToken);
 			case 'put':
 				const putData = await readBody(event);
-				return handleDatabaseOperation(tableName, 'put', id, putData);
+				return handleDatabaseOperation(tableName, 'put', id, putData, jwtToken);
 			case 'delete':
 				return handleDatabaseOperation(tableName, 'delete', id);
 			default:
@@ -36,10 +38,10 @@ export default defineEventHandler(async (event) => {
 				return handleDatabaseOperation(tableName, 'get', id);
 			case 'post':
 				const postData = await readBody(event);
-				return handleDatabaseOperation(tableName, 'post', null, postData);
+				return handleDatabaseOperation(tableName, 'post', null, postData, jwtToken);
 			case 'put':
 				const putData = await readBody(event);
-				return handleDatabaseOperation(tableName, 'put', id, putData);
+				return handleDatabaseOperation(tableName, 'put', id, putData, jwtToken);
 			case 'delete':
 				return handleDatabaseOperation(tableName, 'delete', id);
 			default:
@@ -54,10 +56,10 @@ export default defineEventHandler(async (event) => {
 				return handleDatabaseOperation(tableName, 'get', id);
 			case 'post':
 				const postData = await readBody(event);
-				return handleDatabaseOperation(tableName, 'post', null, postData);
+				return handleDatabaseOperation(tableName, 'post', null, postData, jwtToken);
 			case 'put':
 				const putData = await readBody(event);
-				return handleDatabaseOperation(tableName, 'put', id, putData);
+				return handleDatabaseOperation(tableName, 'put', id, putData, jwtToken);
 			case 'delete':
 				return handleDatabaseOperation(tableName, 'delete', id);
 			default:
@@ -74,18 +76,20 @@ export default defineEventHandler(async (event) => {
 				return handleDatabaseOperation(tableName, 'delete', id);
 			case 'put':
 				const putData = await readBody(event);
-				return handleDatabaseOperation(tableName, 'put', id, putData);
+				return handleDatabaseOperation(tableName, 'put', id, putData, jwtToken);
 			default:
 				throw createError({ statusCode: 405, statusMessage: 'Method Not Allowed' });
 		}
-	} else if (path.length === 1 && path[0] === '') {
+	} else if (path.length === 1 && /\d/.test(path[0])) {
 		const tableName = 'Deviations';
+		const id = path[0];
 		switch (method) {
 			case 'get':
-				return handleDatabaseOperation(tableName, 'get');
-			case 'post':
-				const postData = await readBody(event);
-				return handleDatabaseOperation(tableName, 'post', null, postData);
+				return handleDatabaseOperation(tableName, 'get', id);
+			case 'put':
+				const putData = await readBody(event);
+				console.log("📃 putData: ", putData)
+				return handleDatabaseOperation(tableName, 'put', id, putData, jwtToken);
 			default:
 				throw createError({ statusCode: 405, statusMessage: 'Method Not Allowed' });
 		}
@@ -96,7 +100,7 @@ export default defineEventHandler(async (event) => {
 		statusMessage: 'Not Found',
 		data: {
 			success: false,
-			message: `The requested URL was not found on this server.`
+			message: `The requested URL was not found on this server`
 		}
 	});
 });

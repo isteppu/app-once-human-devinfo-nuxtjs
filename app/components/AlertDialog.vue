@@ -27,7 +27,7 @@ const props = defineProps({
 
 <template>
     <div
-        class="bg-gray-900/10 !w-full h-screen absolute top-0 left-0 flex justify-center items-center p-5 backdrop-blur-sm">
+        class="bg-gray-900/10 !w-full h-screen absolute top-0 left-0 flex justify-center items-center p-5 backdrop-blur-sm z-50">
         <div
             data-aos="fade-up"
             class="bg-[#0F1732] bs-neon rounded-lg p-10 w-full max-w-md text-white transition-transform duration-300 ease-in-out scale-100">
